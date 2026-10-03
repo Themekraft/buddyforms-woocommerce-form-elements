@@ -5,7 +5,7 @@ Tags: buddypress, user, members, profiles, custom post types, taxonomy, frontend
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.11
+Stable tag: 1.5.12-beta.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
