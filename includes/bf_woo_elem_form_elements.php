@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /*
  * @package WordPress
  * @subpackage BuddyPress, Woocommerce, BuddyForms
@@ -155,10 +159,10 @@ class bf_woo_elem_form_element {
 			}
 
 			$id    = 'woocommerce-product-data';
-			$title = __( 'Product data', 'woocommerce' );
+			$title = __( 'Product data', 'buddyforms-woocommerce-form-elements' );
 			if ( $customfield['type'] === 'product-gallery' ) {
 				$id    = 'woocommerce-product-images';
-				$title = isset( $customfield['name'] ) ? $customfield['name'] : __( 'Product gallery', 'woocommerce' );
+				$title = isset( $customfield['name'] ) ? $customfield['name'] : __( 'Product gallery', 'buddyforms-woocommerce-form-elements' );
 			}
 			$post             = get_post( $form_args['post_id'] );
 			$update_post_type = array(
@@ -357,16 +361,16 @@ class bf_woo_elem_form_element {
 			'wc-enhanced-select',
 			'wc_enhanced_select_params',
 			array(
-				'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'woocommerce' ),
-				'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'woocommerce' ),
-				'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'woocommerce' ),
-				'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'woocommerce' ),
-				'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'woocommerce' ),
-				'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'woocommerce' ),
-				'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'woocommerce' ),
+				'i18n_no_matches'           => _x( 'No matches found', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_ajax_error'           => _x( 'Loading failed', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_input_too_short_1'    => _x( 'Please enter 1 or more characters', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_input_too_short_n'    => _x( 'Please enter %qty% or more characters', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_input_too_long_1'     => _x( 'Please delete 1 character', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_input_too_long_n'     => _x( 'Please delete %qty% characters', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_selection_too_long_1' => _x( 'You can only select 1 item', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
+				'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'buddyforms-woocommerce-form-elements' ),
 				'ajax_url'                  => admin_url( 'admin-ajax.php' ),
 				'search_products_nonce'     => wp_create_nonce( 'search-products' ),
 				'search_customers_nonce'    => wp_create_nonce( 'search-customers' ),
@@ -394,15 +398,15 @@ class bf_woo_elem_form_element {
 		$decimal = isset( $locale['decimal_point'] ) ? $locale['decimal_point'] : '.';
 
 		$params = array(
-			'i18n_decimal_error'                => sprintf( __( 'Please enter in decimal (%s) format without thousand separators.', 'woocommerce' ), $decimal ),
-			'i18n_mon_decimal_error'            => sprintf( __( 'Please enter in monetary decimal (%s) format without thousand separators and currency symbols.', 'woocommerce' ), wc_get_price_decimal_separator() ),
-			'i18n_country_iso_error'            => __( 'Please enter in country code with two capital letters.', 'woocommerce' ),
-			'i18n_sale_less_than_regular_error' => __( 'Please enter in a value less than the regular price.', 'woocommerce' ),
+			'i18n_decimal_error'                => sprintf( /* translators: %s: decimal separator. */ __( 'Please enter in decimal (%s) format without thousand separators.', 'buddyforms-woocommerce-form-elements' ), $decimal ),
+			'i18n_mon_decimal_error'            => sprintf( /* translators: %s: decimal separator. */ __( 'Please enter in monetary decimal (%s) format without thousand separators and currency symbols.', 'buddyforms-woocommerce-form-elements' ), wc_get_price_decimal_separator() ),
+			'i18n_country_iso_error'            => __( 'Please enter in country code with two capital letters.', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_sale_less_than_regular_error' => __( 'Please enter in a value less than the regular price.', 'buddyforms-woocommerce-form-elements' ),
 			'decimal_point'                     => $decimal,
 			'mon_decimal_point'                 => wc_get_price_decimal_separator(),
 			'strings'                           => array(
-				'import_products' => __( 'Import', 'woocommerce' ),
-				'export_products' => __( 'Export', 'woocommerce' ),
+				'import_products' => __( 'Import', 'buddyforms-woocommerce-form-elements' ),
+				'export_products' => __( 'Export', 'buddyforms-woocommerce-form-elements' ),
 			),
 			'urls'                              => array(
 				'import_products' => esc_url_raw( admin_url( 'edit.php?post_type=product&page=product_importer' ) ),
@@ -452,23 +456,23 @@ class bf_woo_elem_form_element {
 			'load_variations_nonce'               => wp_create_nonce( 'load-variations' ),
 			'save_variations_nonce'               => wp_create_nonce( 'save-variations' ),
 			'bulk_edit_variations_nonce'          => wp_create_nonce( 'bulk-edit-variations' ),
-			'i18n_link_all_variations'            => esc_js( sprintf( __( 'Are you sure you want to link all variations? This will create a new variation for each and every possible combination of variation attributes (max %d per run).', 'woocommerce' ), defined( 'WC_MAX_LINKED_VARIATIONS' ) ? WC_MAX_LINKED_VARIATIONS : 50 ) ),
-			'i18n_enter_a_value'                  => esc_js( __( 'Enter a value', 'woocommerce' ) ),
-			'i18n_enter_menu_order'               => esc_js( __( 'Variation menu order (determines position in the list of variations)', 'woocommerce' ) ),
-			'i18n_enter_a_value_fixed_or_percent' => esc_js( __( 'Enter a value (fixed or %)', 'woocommerce' ) ),
-			'i18n_delete_all_variations'          => esc_js( __( 'Are you sure you want to delete all variations? This cannot be undone.', 'woocommerce' ) ),
-			'i18n_last_warning'                   => esc_js( __( 'Last warning, are you sure?', 'woocommerce' ) ),
-			'i18n_choose_image'                   => esc_js( __( 'Choose an image', 'woocommerce' ) ),
-			'i18n_set_image'                      => esc_js( __( 'Set variation image', 'woocommerce' ) ),
-			'i18n_variation_added'                => esc_js( __( 'variation added', 'woocommerce' ) ),
-			'i18n_variations_added'               => esc_js( __( 'variations added', 'woocommerce' ) ),
-			'i18n_no_variations_added'            => esc_js( __( 'No variations added', 'woocommerce' ) ),
-			'i18n_remove_variation'               => esc_js( __( 'Are you sure you want to remove this variation?', 'woocommerce' ) ),
-			'i18n_scheduled_sale_start'           => esc_js( __( 'Sale start date (YYYY-MM-DD format or leave blank)', 'woocommerce' ) ),
-			'i18n_scheduled_sale_end'             => esc_js( __( 'Sale end date (YYYY-MM-DD format or leave blank)', 'woocommerce' ) ),
-			'i18n_edited_variations'              => esc_js( __( 'Save changes before changing page?', 'woocommerce' ) ),
-			'i18n_variation_count_single'         => esc_js( __( '%qty% variation', 'woocommerce' ) ),
-			'i18n_variation_count_plural'         => esc_js( __( '%qty% variations', 'woocommerce' ) ),
+			'i18n_link_all_variations'            => esc_js( sprintf( /* translators: %d: maximum number of variations per run. */ __( 'Are you sure you want to link all variations? This will create a new variation for each and every possible combination of variation attributes (max %d per run).', 'buddyforms-woocommerce-form-elements' ), defined( 'WC_MAX_LINKED_VARIATIONS' ) ? WC_MAX_LINKED_VARIATIONS : 50 ) ),
+			'i18n_enter_a_value'                  => esc_js( __( 'Enter a value', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_enter_menu_order'               => esc_js( __( 'Variation menu order (determines position in the list of variations)', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_enter_a_value_fixed_or_percent' => esc_js( __( 'Enter a value (fixed or %)', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_delete_all_variations'          => esc_js( __( 'Are you sure you want to delete all variations? This cannot be undone.', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_last_warning'                   => esc_js( __( 'Last warning, are you sure?', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_choose_image'                   => esc_js( __( 'Choose an image', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_set_image'                      => esc_js( __( 'Set variation image', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_variation_added'                => esc_js( __( 'variation added', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_variations_added'               => esc_js( __( 'variations added', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_no_variations_added'            => esc_js( __( 'No variations added', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_remove_variation'               => esc_js( __( 'Are you sure you want to remove this variation?', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_scheduled_sale_start'           => esc_js( __( 'Sale start date (YYYY-MM-DD format or leave blank)', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_scheduled_sale_end'             => esc_js( __( 'Sale end date (YYYY-MM-DD format or leave blank)', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_edited_variations'              => esc_js( __( 'Save changes before changing page?', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_variation_count_single'         => esc_js( __( '%qty% variation', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_variation_count_plural'         => esc_js( __( '%qty% variations', 'buddyforms-woocommerce-form-elements' ) ),
 			'variations_per_page'                 => absint( apply_filters( 'woocommerce_admin_meta_boxes_variations_per_page', 15 ) ),
 		);
 
@@ -483,11 +487,11 @@ class bf_woo_elem_form_element {
 				'woocommerce_admin_meta_boxes_order',
 				array(
 					'countries'              => wp_json_encode( array_merge( WC()->countries->get_allowed_country_states(), WC()->countries->get_shipping_country_states() ) ),
-					'i18n_select_state_text' => esc_attr__( 'Select an option&hellip;', 'woocommerce' ),
+					'i18n_select_state_text' => esc_attr__( 'Select an option&hellip;', 'buddyforms-woocommerce-form-elements' ),
 					'default_country'        => isset( $default_location['country'] ) ? $default_location['country'] : '',
 					'default_state'          => isset( $default_location['state'] ) ? $default_location['state'] : '',
-					'placeholder_name'       => esc_attr__( 'Name (required)', 'woocommerce' ),
-					'placeholder_value'      => esc_attr__( 'Value (required)', 'woocommerce' ),
+					'placeholder_name'       => esc_attr__( 'Name (required)', 'buddyforms-woocommerce-form-elements' ),
+					'placeholder_value'      => esc_attr__( 'Value (required)', 'buddyforms-woocommerce-form-elements' ),
 				)
 			);
 		}
@@ -498,7 +502,7 @@ class bf_woo_elem_form_element {
 				'wc-admin-coupon-meta-boxes',
 				'woocommerce_admin_meta_boxes_coupon',
 				array(
-					'generate_button_text' => esc_html__( 'Generate coupon code', 'woocommerce' ),
+					'generate_button_text' => esc_html__( 'Generate coupon code', 'buddyforms-woocommerce-form-elements' ),
 					'characters'           => apply_filters( 'woocommerce_coupon_code_generator_characters', 'ABCDEFGHJKMNPQRSTUVWXYZ23456789' ),
 					'char_length'          => apply_filters( 'woocommerce_coupon_code_generator_character_length', 8 ),
 					'prefix'               => apply_filters( 'woocommerce_coupon_code_generator_prefix', '' ),
@@ -512,31 +516,31 @@ class bf_woo_elem_form_element {
 		$order    = wc_get_order( $post_id );
 		$currency = $order ? $order->get_order_currency() : '';
 		$params   = array(
-			'remove_item_notice'            => __( 'Are you sure you want to remove the selected items? If you have previously reduced this item\'s stock, or this order was submitted by a customer, you will need to manually restore the item\'s stock.', 'woocommerce' ),
-			'i18n_select_items'             => __( 'Please select some items.', 'woocommerce' ),
-			'i18n_do_refund'                => __( 'Are you sure you wish to process this refund? This action cannot be undone.', 'woocommerce' ),
-			'i18n_delete_refund'            => __( 'Are you sure you wish to delete this refund? This action cannot be undone.', 'woocommerce' ),
-			'i18n_delete_tax'               => __( 'Are you sure you wish to delete this tax column? This action cannot be undone.', 'woocommerce' ),
-			'remove_item_meta'              => __( 'Remove this item meta?', 'woocommerce' ),
-			'remove_attribute'              => __( 'Remove this attribute?', 'woocommerce' ),
-			'name_label'                    => __( 'Name', 'woocommerce' ),
-			'remove_label'                  => __( 'Remove', 'woocommerce' ),
-			'click_to_toggle'               => __( 'Click to toggle', 'woocommerce' ),
-			'values_label'                  => __( 'Value(s)', 'woocommerce' ),
-			'text_attribute_tip'            => __( 'Enter some text, or some attributes by pipe (|) separating values.', 'woocommerce' ),
-			'visible_label'                 => __( 'Visible on the product page', 'woocommerce' ),
-			'used_for_variations_label'     => __( 'Used for variations', 'woocommerce' ),
-			'new_attribute_prompt'          => __( 'Enter a name for the new attribute term:', 'woocommerce' ),
-			'calc_totals'                   => __( 'Calculate totals based on order items, discounts, and shipping?', 'woocommerce' ),
-			'calc_line_taxes'               => __( 'Calculate line taxes? This will calculate taxes based on the customers country. If no billing/shipping is set it will use the store base country.', 'woocommerce' ),
-			'copy_billing'                  => __( 'Copy billing information to shipping information? This will remove any currently entered shipping information.', 'woocommerce' ),
-			'load_billing'                  => __( 'Load the customer\'s billing information? This will remove any currently entered billing information.', 'woocommerce' ),
-			'load_shipping'                 => __( 'Load the customer\'s shipping information? This will remove any currently entered shipping information.', 'woocommerce' ),
-			'featured_label'                => __( 'Featured', 'woocommerce' ),
+			'remove_item_notice'            => __( 'Are you sure you want to remove the selected items? If you have previously reduced this item\'s stock, or this order was submitted by a customer, you will need to manually restore the item\'s stock.', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_select_items'             => __( 'Please select some items.', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_do_refund'                => __( 'Are you sure you wish to process this refund? This action cannot be undone.', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_delete_refund'            => __( 'Are you sure you wish to delete this refund? This action cannot be undone.', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_delete_tax'               => __( 'Are you sure you wish to delete this tax column? This action cannot be undone.', 'buddyforms-woocommerce-form-elements' ),
+			'remove_item_meta'              => __( 'Remove this item meta?', 'buddyforms-woocommerce-form-elements' ),
+			'remove_attribute'              => __( 'Remove this attribute?', 'buddyforms-woocommerce-form-elements' ),
+			'name_label'                    => __( 'Name', 'buddyforms-woocommerce-form-elements' ),
+			'remove_label'                  => __( 'Remove', 'buddyforms-woocommerce-form-elements' ),
+			'click_to_toggle'               => __( 'Click to toggle', 'buddyforms-woocommerce-form-elements' ),
+			'values_label'                  => __( 'Value(s)', 'buddyforms-woocommerce-form-elements' ),
+			'text_attribute_tip'            => __( 'Enter some text, or some attributes by pipe (|) separating values.', 'buddyforms-woocommerce-form-elements' ),
+			'visible_label'                 => __( 'Visible on the product page', 'buddyforms-woocommerce-form-elements' ),
+			'used_for_variations_label'     => __( 'Used for variations', 'buddyforms-woocommerce-form-elements' ),
+			'new_attribute_prompt'          => __( 'Enter a name for the new attribute term:', 'buddyforms-woocommerce-form-elements' ),
+			'calc_totals'                   => __( 'Calculate totals based on order items, discounts, and shipping?', 'buddyforms-woocommerce-form-elements' ),
+			'calc_line_taxes'               => __( 'Calculate line taxes? This will calculate taxes based on the customers country. If no billing/shipping is set it will use the store base country.', 'buddyforms-woocommerce-form-elements' ),
+			'copy_billing'                  => __( 'Copy billing information to shipping information? This will remove any currently entered shipping information.', 'buddyforms-woocommerce-form-elements' ),
+			'load_billing'                  => __( 'Load the customer\'s billing information? This will remove any currently entered billing information.', 'buddyforms-woocommerce-form-elements' ),
+			'load_shipping'                 => __( 'Load the customer\'s shipping information? This will remove any currently entered shipping information.', 'buddyforms-woocommerce-form-elements' ),
+			'featured_label'                => __( 'Featured', 'buddyforms-woocommerce-form-elements' ),
 			'prices_include_tax'            => esc_attr( get_option( 'woocommerce_prices_include_tax' ) ),
 			'tax_based_on'                  => esc_attr( get_option( 'woocommerce_tax_based_on' ) ),
 			'round_at_subtotal'             => esc_attr( get_option( 'woocommerce_tax_round_at_subtotal' ) ),
-			'no_customer_selected'          => __( 'No customer selected', 'woocommerce' ),
+			'no_customer_selected'          => __( 'No customer selected', 'buddyforms-woocommerce-form-elements' ),
 			'plugin_url'                    => WC()->plugin_url(),
 			'ajax_url'                      => admin_url( 'admin-ajax.php' ),
 			'order_item_nonce'              => wp_create_nonce( 'order-item' ),
@@ -579,11 +583,11 @@ class bf_woo_elem_form_element {
 					array_keys( wc_get_product_types() )
 				)
 			),
-			'i18n_download_permission_fail' => __( 'Could not grant access - the user may already have permission for this file or billing email is not set. Ensure the billing email is set, and the order has been saved.', 'woocommerce' ),
-			'i18n_permission_revoke'        => __( 'Are you sure you want to revoke access to this download?', 'woocommerce' ),
-			'i18n_tax_rate_already_exists'  => __( 'You cannot add the same tax rate twice!', 'woocommerce' ),
-			'i18n_product_type_alert'       => __( 'Your product has variations! Before changing the product type, it is a good idea to delete the variations to avoid errors in the stock reports.', 'woocommerce' ),
-			'i18n_delete_note'              => __( 'Are you sure you wish to delete this note? This action cannot be undone.', 'woocommerce' ),
+			'i18n_download_permission_fail' => __( 'Could not grant access - the user may already have permission for this file or billing email is not set. Ensure the billing email is set, and the order has been saved.', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_permission_revoke'        => __( 'Are you sure you want to revoke access to this download?', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_tax_rate_already_exists'  => __( 'You cannot add the same tax rate twice!', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_product_type_alert'       => __( 'Your product has variations! Before changing the product type, it is a good idea to delete the variations to avoid errors in the stock reports.', 'buddyforms-woocommerce-form-elements' ),
+			'i18n_delete_note'              => __( 'Are you sure you wish to delete this note? This action cannot be undone.', 'buddyforms-woocommerce-form-elements' ),
 		);
 
 		wp_localize_script( 'wc-admin-meta-boxes', 'woocommerce_admin_meta_boxes', $params );
