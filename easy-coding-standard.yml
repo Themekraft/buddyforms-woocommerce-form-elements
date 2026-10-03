@@ -79,5 +79,3 @@ parameters:
     SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff.WriteOnlyProperty: ~
     PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff.NotCamelCaps: ~
     `Unused variable $post.`: ~
-  exclude_files:
-    - 'includes/resources/tgm/class-tgm-plugin-activation.php'

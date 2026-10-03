@@ -6,6 +6,7 @@
  * Version: 1.5.11
  * Requires at least: 5.9
  * Requires PHP: 7.4
+ * Requires Plugins: woocommerce, buddyforms
  * Author: ThemeKraft
  * Author URI: https://profiles.wordpress.org/svenl77
  * License: GPLv2 or later
@@ -40,6 +41,25 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+if ( ! function_exists( 'buddyforms_addon_plugin_dependencies_slug' ) ) {
+	/**
+	 * Let the running BuddyForms copy (free or premium) satisfy "Requires Plugins: buddyforms".
+	 *
+	 * @param string $slug Dependency slug.
+	 *
+	 * @return string
+	 */
+	function buddyforms_addon_plugin_dependencies_slug( $slug ) {
+		if ( 'buddyforms' === $slug && defined( 'BUDDYFORMS_INSTALL_PATH' ) ) {
+			return basename( BUDDYFORMS_INSTALL_PATH );
+		}
+
+		return $slug;
+	}
+
+	add_filter( 'wp_plugin_dependencies_slug', 'buddyforms_addon_plugin_dependencies_slug' );
+}
+
 if ( ! class_exists( 'bf_woo_elem' ) ) {
 
 	require_once dirname( __FILE__ ) . '/includes/bf_woo_elem_fs.php';
@@ -58,7 +78,6 @@ if ( ! class_exists( 'bf_woo_elem' ) ) {
 			$this->constants();
 			$this->load_plugin_textdomain();
 			require_once BF_WOO_ELEM_INCLUDES_PATH . 'bf_woo_elem_requirements.php';
-			new bf_woo_elem_requirements();
 
 			if ( bf_woo_elem_requirements::is_buddy_form_active() && bf_woo_elem_requirements::is_woocommerce_active() ) {
 				require_once BF_WOO_ELEM_INCLUDES_PATH . 'bf_woo_elem_manager.php';
