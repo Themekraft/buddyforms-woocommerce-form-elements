@@ -94,29 +94,29 @@ class bf_woo_elem_requirements {
 			'dismissable'  => false, // If false, a user cannot dismiss the nag message.
 			'is_automatic' => true, // Automatically activate plugins after installation or not.
 			'strings'      => array(
-				'notice_can_install_required'    => _n_noop(
-					/* translators: 1: plugin name(s). */
+				'notice_can_install_required'    => /* translators: %1$s: plugin name(s). */
+					_n_noop(
 					'One of the <u>ThemKraft</u> plugin requires the following plugin: %1$s.',
 					'One of the <u>ThemKraft</u> plugin requires the following plugins: %1$s.',
-					'bf_woo_elem_locale'
+					'buddyforms-woocommerce-form-elements'
 				),
-				'notice_can_install_recommended' => _n_noop(
-					/* translators: 1: plugin name(s). */
+				'notice_can_install_recommended' => /* translators: %1$s: plugin name(s). */
+					_n_noop(
 					'One of the <u>ThemKraft</u> plugin recommends the following plugin: %1$s.',
 					'One of the <u>ThemKraft</u> plugin recommends the following plugins: %1$s.',
-					'bf_woo_elem_locale'
+					'buddyforms-woocommerce-form-elements'
 				),
-				'notice_can_activate_required'   => _n_noop(
-					/* translators: 1: plugin name(s). */
+				'notice_can_activate_required'   => /* translators: %1$s: plugin name(s). */
+					_n_noop(
 					'The following is a required plugin for one of the <u>ThemKraft</u> and is currently inactive: %1$s.',
 					'The following is a required plugins for one of the <u>ThemKraft</u> and they are currently inactive: %1$s.',
-					'bf_woo_elem_locale'
+					'buddyforms-woocommerce-form-elements'
 				),
-				'notice_ask_to_update'           => _n_noop(
-					/* translators: 1: plugin name(s). */
+				'notice_ask_to_update'           => /* translators: %1$s: plugin name(s). */
+					_n_noop(
 					'The following plugin needs to be updated to its latest version to ensure maximum compatibility with this plugin: %1$s.',
 					'The following plugins need to be updated to their latest version to ensure maximum compatibility with this plugin: %1$s.',
-					'bf_woo_elem_locale'
+					'buddyforms-woocommerce-form-elements'
 				),
 			),
 		);

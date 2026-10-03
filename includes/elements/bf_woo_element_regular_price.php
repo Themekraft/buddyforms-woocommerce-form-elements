@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /*
  * @package WordPress
  * @subpackage BuddyPress, Woocommerce, BuddyForms
@@ -14,7 +18,7 @@ if ( class_exists( 'Element_Textbox' ) ) {
 		public static function definition() {
 			return array(
 				'_regular_price' => array(
-					'label'  => __( 'Regular Price', 'buddyforms' ),
+					'label'  => __( 'Regular Price', 'buddyforms-woocommerce-form-elements' ),
 					'unique' => 'unique',
 				),
 			);
