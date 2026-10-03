@@ -369,8 +369,8 @@ class bf_woo_elem_form_builder {
 					)
 				);
 
-				$product_sales_start_date = date( 'Y-m-d' );
-				$product_sales_end_date   = date( 'Y-m-d' );
+				$product_sales_start_date = gmdate( 'Y-m-d' );
+				$product_sales_end_date   = gmdate( 'Y-m-d' );
 				if ( isset( $buddyform['form_fields'][ $field_id ]['product_sales_start_date'] ) ) {
 					$product_sales_start_date = $buddyform['form_fields'][ $field_id ]['product_sales_start_date'];
 				}
