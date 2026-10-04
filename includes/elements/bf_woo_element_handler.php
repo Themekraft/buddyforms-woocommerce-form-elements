@@ -146,7 +146,7 @@ class bf_woo_element_handler {
 			$src     = wp_get_attachment_url( $gallery );
 
 			if ( ! empty( $gallery ) && ! empty( $src ) ) {
-				$result = wp_get_attachment_image( $gallery, array( 50, 50 ), true ) . " <a style='vertical-align: top;' target='_blank' href='" . $src . "'>" . __( 'Full Image', 'buddyform' ) . '</a>';
+				$result = wp_get_attachment_image( $gallery, array( 50, 50 ), true ) . " <a style='vertical-align: top;' target='_blank' href='" . $src . "'>" . __( 'Full Image', 'buddyforms-woocommerce-form-elements' ) . '</a>';
 			}
 
 			return $result;

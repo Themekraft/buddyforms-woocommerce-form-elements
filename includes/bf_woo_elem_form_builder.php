@@ -34,7 +34,7 @@ class bf_woo_elem_form_builder {
 			$src     = wp_get_attachment_url( $gallery );
 
 			if ( ! empty( $gallery ) && ! empty( $src ) ) {
-				$result = wp_get_attachment_image( $gallery, array( 50, 50 ), true ) . " <a style='vertical-align: top;' target='_blank' href='" . $src . "'>" . __( 'Full Image', 'buddyform' ) . '</a>';
+				$result = wp_get_attachment_image( $gallery, array( 50, 50 ), true ) . " <a style='vertical-align: top;' target='_blank' href='" . $src . "'>" . __( 'Full Image', 'buddyforms-woocommerce-form-elements' ) . '</a>';
 			}
 			return $result;
 		}
@@ -46,9 +46,9 @@ class bf_woo_elem_form_builder {
 
 		if ( $this->load_script ) {
 			$url = BF_WOO_ELEM_JS_PATH;
-			wp_enqueue_script( 'bf_woo_builder', BF_WOO_ELEM_JS_PATH . 'bf_woo_builder.js', array(), false, false );
+			wp_enqueue_script( 'bf_woo_builder', BF_WOO_ELEM_JS_PATH . 'bf_woo_builder.js', array(), bf_woo_elem_manager::get_version(), false );
 
-			wp_enqueue_style( 'bf_woo_builder', BF_WOO_ELEM_CSS_PATH . 'buddyforms-woocommerce.css' );
+			wp_enqueue_style( 'bf_woo_builder', BF_WOO_ELEM_CSS_PATH . 'buddyforms-woocommerce.css', array(), bf_woo_elem_manager::get_version() );
 		}
 	}
 
@@ -62,11 +62,11 @@ class bf_woo_elem_form_builder {
 		$elements_select_options['woocommerce']['label']                     = 'WooCommerce';
 		$elements_select_options['woocommerce']['class']                     = 'bf_show_if_f_type_post';
 		$elements_select_options['woocommerce']['fields']['woocommerce']     = array(
-			'label'  => __( 'General Settings', 'buddyforms' ),
+			'label'  => __( 'General Settings', 'buddyforms-woocommerce-form-elements' ),
 			'unique' => 'unique',
 		);
 		$elements_select_options['woocommerce']['fields']['product-gallery'] = array(
-			'label'  => __( 'Product Gallery', 'buddyforms' ),
+			'label'  => __( 'Product Gallery', 'buddyforms-woocommerce-form-elements' ),
 			'unique' => 'unique',
 		);
 
@@ -88,7 +88,7 @@ class bf_woo_elem_form_builder {
 			wp_enqueue_script( 'bf_woo_jvalidate', BF_WOO_ELEM_JS_PATH . 'jquery.validate.min.js', array( 'jquery' ), null, true );
 			wp_enqueue_script( 'bf_woo_builder', BF_WOO_ELEM_JS_PATH . 'bf_woo_builder.js', array( 'jquery', 'jquery-ui-datepicker1' ), null, false );
 			do_action( 'include_bf_woo_booking_scripts' );
-			wp_enqueue_style( 'bf_woo_builder', BF_WOO_ELEM_CSS_PATH . 'buddyforms-woocommerce.css' );
+			wp_enqueue_style( 'bf_woo_builder', BF_WOO_ELEM_CSS_PATH . 'buddyforms-woocommerce.css', array(), bf_woo_elem_manager::get_version() );
 			wp_enqueue_style( 'jquery-ui-datepicker2', BF_WOO_ELEM_CSS_PATH . 'jquery.datetimepicker.min.css' );
 			$param_builder = array( 'field_id' => $field_id );
 			wp_localize_script( 'bf_woo_builder', 'bf_woo_elem_builder', $param_builder );
@@ -112,15 +112,15 @@ class bf_woo_elem_form_builder {
 						'virtual'      => array(
 							'id'            => '_virtual',
 							'wrapper_class' => 'show_if_simple',
-							'label'         => __( 'Virtual', 'woocommerce' ),
-							'description'   => '<b>' . __( 'Virtual products are intangible and aren\'t shipped.', 'woocommerce' ) . '</b>',
+							'label'         => __( 'Virtual', 'buddyforms-woocommerce-form-elements' ),
+							'description'   => '<b>' . __( 'Virtual products are intangible and aren\'t shipped.', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 							'default'       => 'no',
 						),
 						'downloadable' => array(
 							'id'            => '_downloadable',
 							'wrapper_class' => 'show_if_simple',
-							'label'         => __( 'Downloadable', 'woocommerce' ),
-							'description'   => '<b>' . __( 'Downloadable products give access to a file upon purchase.', 'woocommerce' ) . '</b>',
+							'label'         => __( 'Downloadable', 'buddyforms-woocommerce-form-elements' ),
+							'description'   => '<b>' . __( 'Downloadable products give access to a file upon purchase.', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 							'default'       => 'no',
 						),
 					)
@@ -134,7 +134,7 @@ class bf_woo_elem_form_builder {
 					$element_tax                                  = new Element_Checkbox(
 						'<b>Product Tax Hidden</b>',
 						'buddyforms_options[form_fields][' . $field_id . '][product_tax_hidden]',
-						array( 'hide_product_tax' => __( 'Make the Product Tax a Hidden Field', 'buddyforms' ) ),
+						array( 'hide_product_tax' => __( 'Make the Product Tax a Hidden Field', 'buddyforms-woocommerce-form-elements' ) ),
 						array(
 							'id'    => 'product_tax_hidden',
 							'class' => 'bf_hidden_checkbox',
@@ -149,12 +149,12 @@ class bf_woo_elem_form_builder {
 					}
 
 					$product_tax_status                                   = array(
-						'taxable'  => __( 'Taxable', 'woocommerce' ),
-						'shipping' => __( 'Shipping only', 'woocommerce' ),
-						'none'     => _x( 'None', 'Tax status', 'woocommerce' ),
+						'taxable'  => __( 'Taxable', 'buddyforms-woocommerce-form-elements' ),
+						'shipping' => __( 'Shipping only', 'buddyforms-woocommerce-form-elements' ),
+						'none'     => _x( 'None', 'Tax status', 'buddyforms-woocommerce-form-elements' ),
 					);
 					$form_fields['general']['product_tax_status_default'] = new Element_Select(
-						'<b>' . __( 'Tax status: ', 'buddyforms' ) . '</b>',
+						'<b>' . __( 'Tax status: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 						'buddyforms_options[form_fields][' . $field_id . '][product_tax_status_default]',
 						$product_tax_status,
 						array(
@@ -171,7 +171,7 @@ class bf_woo_elem_form_builder {
 						$product_tax_class_default = $buddyform['form_fields'][ $field_id ]['product_tax_class_default'];
 					}
 					$form_fields['general']['product_tax_class_default'] = new Element_Select(
-						'<b>' . __( 'Tax class: ', 'buddyforms' ) . '</b>',
+						'<b>' . __( 'Tax class: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 						'buddyforms_options[form_fields][' . $field_id . '][product_tax_class_default]',
 						$product_tax_class,
 						array(
@@ -198,7 +198,7 @@ class bf_woo_elem_form_builder {
 				$element = new Element_Checkbox(
 					'<b>Product Data Hidden</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_type_hidden]',
-					array( 'hide_product_type' => __( 'Hide the Product Data Fields', 'buddyforms' ) ),
+					array( 'hide_product_type' => __( 'Hide the Product Data Fields', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => 'product_type_hidden',
 						'class' => 'bf_hidden_checkbox',
@@ -220,15 +220,15 @@ class bf_woo_elem_form_builder {
 				$product_type_selector = apply_filters(
 					'product_type_selector',
 					array(
-						'simple'   => __( 'Simple product', 'woocommerce' ),
-						'grouped'  => __( 'Grouped product', 'woocommerce' ),
-						'external' => __( 'External/Affiliate product', 'woocommerce' ),
-						'variable' => __( 'Variable product', 'woocommerce' ),
+						'simple'   => __( 'Simple product', 'buddyforms-woocommerce-form-elements' ),
+						'grouped'  => __( 'Grouped product', 'buddyforms-woocommerce-form-elements' ),
+						'external' => __( 'External/Affiliate product', 'buddyforms-woocommerce-form-elements' ),
+						'variable' => __( 'Variable product', 'buddyforms-woocommerce-form-elements' ),
 					)
 				);
 
 				$form_fields['general']['product_type_default'] = new Element_Select(
-					'<b>' . __( 'Default Product Type: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Default Product Type: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_type_default]',
 					$product_type_selector,
 					array(
@@ -284,12 +284,12 @@ class bf_woo_elem_form_builder {
 				}
 
 				$element_regular_price = new Element_Select(
-					'<b>' . __( 'Regular Price', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Regular Price', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_regular_price]',
 					array(
-						'hidden'   => __( 'Hide', 'buddyforms' ),
-						'none'     => __( 'Not Required', 'buddyforms' ),
-						'required' => __( 'Required', 'buddyforms' ),
+						'hidden'   => __( 'Hide', 'buddyforms-woocommerce-form-elements' ),
+						'none'     => __( 'Not Required', 'buddyforms-woocommerce-form-elements' ),
+						'required' => __( 'Required', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'inline' => 1,
@@ -302,7 +302,7 @@ class bf_woo_elem_form_builder {
 					$regular_price_amount = $buddyform['form_fields'][ $field_id ]['regular_price_amount'];
 				}
 				$element_regular_price_amount = new Element_Textbox(
-					'<b>' . __( 'Enter Amount: ', 'buddyforms' ) . ' </b>',
+					'<b>' . __( 'Enter Amount: ', 'buddyforms-woocommerce-form-elements' ) . ' </b>',
 					'buddyforms_options[form_fields][' . $field_id . '][regular_price_amount]',
 					array(
 						'id'                      => $field_id . '_regular_price_amount',
@@ -319,12 +319,12 @@ class bf_woo_elem_form_builder {
 				}
 
 				$element_sales_price = new Element_Select(
-					'<b>' . __( 'Sales Price', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Sales Price', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_sales_price]',
 					array(
-						'hidden'   => __( 'Hide', 'buddyforms' ),
-						'none'     => __( 'Not Required', 'buddyforms' ),
-						'required' => __( 'Required', 'buddyforms' ),
+						'hidden'   => __( 'Hide', 'buddyforms-woocommerce-form-elements' ),
+						'none'     => __( 'Not Required', 'buddyforms-woocommerce-form-elements' ),
+						'required' => __( 'Required', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'inline' => 1,
@@ -338,7 +338,7 @@ class bf_woo_elem_form_builder {
 					$sales_price_amount = $buddyform['form_fields'][ $field_id ]['sales_price_amount'];
 				}
 				$element_sales_price_amount = new Element_Textbox(
-					'<b>' . __( 'Enter Amount: ', 'buddyforms' ) . ' </b>',
+					'<b>' . __( 'Enter Amount: ', 'buddyforms-woocommerce-form-elements' ) . ' </b>',
 					'buddyforms_options[form_fields][' . $field_id . '][sales_price_amount]',
 					array(
 						'id'                    => $field_id . '_sales_price_amount',
@@ -355,12 +355,12 @@ class bf_woo_elem_form_builder {
 				}
 
 				$element_price_date = new Element_Select(
-					'<b>' . __( 'Sales Price Date', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Sales Price Date', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_sales_price_dates]',
 					array(
-						'hidden'   => __( 'Hide', 'buddyforms' ),
-						'none'     => __( 'Not Required', 'buddyforms' ),
-						'required' => __( 'Required', 'buddyforms' ),
+						'hidden'   => __( 'Hide', 'buddyforms-woocommerce-form-elements' ),
+						'none'     => __( 'Not Required', 'buddyforms-woocommerce-form-elements' ),
+						'required' => __( 'Required', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'inline' => 1,
@@ -369,8 +369,8 @@ class bf_woo_elem_form_builder {
 					)
 				);
 
-				$product_sales_start_date = date( 'Y-m-d' );
-				$product_sales_end_date   = date( 'Y-m-d' );
+				$product_sales_start_date = gmdate( 'Y-m-d' );
+				$product_sales_end_date   = gmdate( 'Y-m-d' );
 				if ( isset( $buddyform['form_fields'][ $field_id ]['product_sales_start_date'] ) ) {
 					$product_sales_start_date = $buddyform['form_fields'][ $field_id ]['product_sales_start_date'];
 				}
@@ -380,7 +380,7 @@ class bf_woo_elem_form_builder {
 				}
 
 				$element_sales_price_start_date = new Element_Textbox(
-					'<b>' . __( 'Sales Start Date', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Sales Start Date', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_sales_start_date]',
 					array(
 						'id'    => 'product_sales_start_date_' . $field_id,
@@ -391,7 +391,7 @@ class bf_woo_elem_form_builder {
 				);
 
 				$element_sales_price_end_date = new Element_Textbox(
-					'<b>' . __( 'Sales End Date', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Sales End Date', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_sales_end_date]',
 					array(
 						'id'    => 'product_sales_end_date_' . $field_id,
@@ -429,12 +429,12 @@ class bf_woo_elem_form_builder {
 					$product_sku = $buddyform['form_fields'][ $field_id ]['product_sku'];
 				}
 				$form_fields['Inventory']['product_sku'] = new Element_Select(
-					'<b>' . __( 'SKU Field', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'SKU Field', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_sku]',
 					array(
-						'none'     => __( 'Not Required', 'buddyforms' ),
-						'hidden'   => __( 'Hide', 'buddyforms' ),
-						'required' => __( 'Required', 'buddyforms' ),
+						'none'     => __( 'Not Required', 'buddyforms-woocommerce-form-elements' ),
+						'hidden'   => __( 'Hide', 'buddyforms-woocommerce-form-elements' ),
+						'required' => __( 'Required', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'inline' => 1,
@@ -448,7 +448,7 @@ class bf_woo_elem_form_builder {
 					$sku_value = $buddyform['form_fields'][ $field_id ]['sku_value'];
 				}
 				$element_sku_value = new Element_Textbox(
-					'<b>' . __( 'Enter SKU: ', 'buddyforms' ) . ' </b>',
+					'<b>' . __( 'Enter SKU: ', 'buddyforms-woocommerce-form-elements' ) . ' </b>',
 					'buddyforms_options[form_fields][' . $field_id . '][sku_value]',
 					array(
 						'id'    => $field_id . '_sku_value',
@@ -470,9 +470,9 @@ class bf_woo_elem_form_builder {
 				}
 
 				$element = new Element_Checkbox(
-					'<b>' . __( 'Manage Stock', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Manage Stock', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_manage_stock]',
-					array( 'manage' => __( 'Hide stock management at product level and set default hidden values . ', 'buddyforms' ) ),
+					array( 'manage' => __( 'Hide stock management at product level and set default hidden values . ', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => 'product_manage_stock_' . $field_id,
 						'value' => $product_manage_stock,
@@ -487,7 +487,7 @@ class bf_woo_elem_form_builder {
 					$product_manage_stock_qty = $buddyform['form_fields'][ $field_id ]['product_manage_stock_qty'];
 				}
 				$form_fields['Inventory']['product_manage_stock_qty'] = new Element_Number(
-					'<b>' . __( 'Stock Quantity: ', 'buddyforms' ) . ' </b>',
+					'<b>' . __( 'Stock Quantity: ', 'buddyforms-woocommerce-form-elements' ) . ' </b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_manage_stock_qty]',
 					array(
 						'id'    => $field_id . '_product_manage_stock_qty',
@@ -502,7 +502,7 @@ class bf_woo_elem_form_builder {
 					$product_low_stock_qty = $buddyform['form_fields'][ $field_id ]['product_low_stock_qty'];
 				}
 				$form_fields['Inventory']['product_low_stock_qty'] = new Element_Number(
-					'<b>' . __( 'Low Stock Quantity: ', 'buddyforms' ) . ' </b>',
+					'<b>' . __( 'Low Stock Quantity: ', 'buddyforms-woocommerce-form-elements' ) . ' </b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_low_stock_qty]',
 					array(
 						'id'    => $field_id . '_product_low_stock_qty',
@@ -517,12 +517,12 @@ class bf_woo_elem_form_builder {
 
 				$product_allow_backorders                             = isset( $buddyform['form_fields'][ $field_id ]['product_allow_backorders'] ) ? $buddyform['form_fields'][ $field_id ]['product_allow_backorders'] : 'no';
 				$form_fields['Inventory']['product_allow_backorders'] = new Element_Select(
-					'<b>' . __( 'Allow Back Orders: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Allow Back Orders: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_allow_backorders]',
 					array(
-						'no'     => __( 'Do not allow', 'buddyforms' ),
-						'notify' => __( 'Allow, but notify customer', 'buddyforms' ),
-						'yes'    => __( 'Allow', 'buddyforms' ),
+						'no'     => __( 'Do not allow', 'buddyforms-woocommerce-form-elements' ),
+						'notify' => __( 'Allow, but notify customer', 'buddyforms-woocommerce-form-elements' ),
+						'yes'    => __( 'Allow', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'id'    => $field_id . '_product_allow_backorders',
@@ -539,12 +539,12 @@ class bf_woo_elem_form_builder {
 				}
 
 				$form_fields['Inventory']['product_stock_status_options'] = new Element_Select(
-					'<b>' . __( 'Stock Status Option', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Stock Status Option', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_stock_status_options]',
 					array(
-						'none'     => __( 'Not Required', 'buddyforms' ),
-						'hidden'   => __( 'Hide', 'buddyforms' ),
-						'required' => __( 'Required', 'buddyforms' ),
+						'none'     => __( 'Not Required', 'buddyforms-woocommerce-form-elements' ),
+						'hidden'   => __( 'Hide', 'buddyforms-woocommerce-form-elements' ),
+						'required' => __( 'Required', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'inline' => 1,
@@ -561,12 +561,12 @@ class bf_woo_elem_form_builder {
 					$stock_status_value = $buddyform['form_fields'][ $field_id ]['product_stock_status'];
 				}
 				$form_fields['Inventory']['product_stock_status'] = new Element_Select(
-					'<b>' . __( 'Select Hidden Value', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Select Hidden Value', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_stock_status]',
 					array(
-						'instock'     => __( 'In Stock', 'buddyforms' ),
-						'outofstock'  => __( 'Out of Stock', 'buddyforms' ),
-						'onbackorder' => __( 'On Back Order', 'buddyforms' ),
+						'instock'     => __( 'In Stock', 'buddyforms-woocommerce-form-elements' ),
+						'outofstock'  => __( 'Out of Stock', 'buddyforms-woocommerce-form-elements' ),
+						'onbackorder' => __( 'On Back Order', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'inline' => 1,
@@ -580,12 +580,12 @@ class bf_woo_elem_form_builder {
 				$product_sold_individually_options = isset( $buddyform['form_fields'][ $field_id ]['product_sold_individually_options'] ) ? $buddyform['form_fields'][ $field_id ]['product_sold_individually_options'] : 'false';
 
 				$form_fields['Inventory']['product_sold_individually_options'] = new Element_Select(
-					'<b>' . __( 'Sold Individually', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Sold Individually', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_sold_individually_options]',
 					array(
-						'none'     => __( 'Not Required', 'buddyforms' ),
-						'hidden'   => __( 'Hide', 'buddyforms' ),
-						'required' => __( 'Required', 'buddyforms' ),
+						'none'     => __( 'Not Required', 'buddyforms-woocommerce-form-elements' ),
+						'hidden'   => __( 'Hide', 'buddyforms-woocommerce-form-elements' ),
+						'required' => __( 'Required', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'inline' => 1,
@@ -598,11 +598,11 @@ class bf_woo_elem_form_builder {
 				$product_sold_individually_checked                     = $product_sold_individually_options === 'false' ? 'hidden' : '';
 				$product_sold_individually                             = isset( $buddyform['form_fields'][ $field_id ]['product_sold_individually'] ) ? $buddyform['form_fields'][ $field_id ]['product_sold_individually'] : 'false';
 				$form_fields['Inventory']['product_sold_individually'] = new Element_Select(
-					'<b>' . __( 'Select hidden value: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Select hidden value: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_sold_individually]',
 					array(
-						'yes' => __( 'Yes', 'buddyforms' ),
-						'no'  => __( 'No', 'buddyforms' ),
+						'yes' => __( 'Yes', 'buddyforms-woocommerce-form-elements' ),
+						'no'  => __( 'No', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'id'    => $field_id . '_product_sold_individually',
@@ -613,14 +613,14 @@ class bf_woo_elem_form_builder {
 
 				// Shipping
 
-				$form_fields['Shipping']['product_shipping_enabled_html'] = new Element_HTML( '<p>' . __( 'If you want to turn off Shipping you need to set the Product Type to Virtual, Grouped or External . In the general Tab . This will automatically disable the shipping fields . ', 'buddyforms' ) . '</p>' );
+				$form_fields['Shipping']['product_shipping_enabled_html'] = new Element_HTML( '<p>' . __( 'If you want to turn off Shipping you need to set the Product Type to Virtual, Grouped or External . In the general Tab . This will automatically disable the shipping fields . ', 'buddyforms-woocommerce-form-elements' ) . '</p>' );
 
 				$product_shipping_hidden = isset( $buddyform['form_fields'][ $field_id ]['product_shipping_hidden'] ) ? $buddyform['form_fields'][ $field_id ]['product_shipping_hidden'] : 'false';
 				$element                 = new Element_Checkbox(
-					'<b>' . __( 'Hide Shipping', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Hide Shipping', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_shipping_hidden]',
 					array(
-						'hide_shipping' => __( 'Hide Shipping fields and set default hidden values . ', 'buddyforms' ),
+						'hide_shipping' => __( 'Hide Shipping fields and set default hidden values . ', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'id'    => 'product_shipping_hidden' . $field_id,
@@ -644,7 +644,7 @@ class bf_woo_elem_form_builder {
 				// Shipping Hidden Weight
 				$product_shipping_hidden_weight                            = isset( $buddyform['form_fields'][ $field_id ]['product_shipping_hidden_weight'] ) ? $buddyform['form_fields'][ $field_id ]['product_shipping_hidden_weight'] : 'false';
 				$form_fields['Shipping']['product_shipping_hidden_weight'] = new Element_Number(
-					'<b>' . __( 'Weight( kg ): ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Weight( kg ): ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_shipping_hidden_weight]',
 					array(
 						'id'    => $field_id . '_product_shipping_hidden_weight',
@@ -655,7 +655,7 @@ class bf_woo_elem_form_builder {
 
 				// Shipping Hidden Dimension length
 				$form_fields['Shipping']['product_shipping_hidden_dimension_length'] = new Element_Number(
-					'<b>' . __( 'Dimension Length: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Dimension Length: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_shipping_hidden_dimension_length]',
 					array(
 						'id'    => $field_id . '_product_shipping_hidden_dimension_length',
@@ -665,7 +665,7 @@ class bf_woo_elem_form_builder {
 				);
 				// Shipping Hidden Dimension width
 				$form_fields['Shipping']['product_shipping_hidden_dimension_width'] = new Element_Number(
-					'<b>' . __( 'Dimension Width: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Dimension Width: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_shipping_hidden_dimension_width]',
 					array(
 						'id'    => $field_id . '_product_shipping_hidden_dimension_width',
@@ -675,7 +675,7 @@ class bf_woo_elem_form_builder {
 				);
 				// Shipping Hidden Dimension height
 				$form_fields['Shipping']['product_shipping_hidden_dimension_height'] = new Element_Number(
-					'<b>' . __( 'Dimension Height: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Dimension Height: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_shipping_hidden_dimension_height]',
 					array(
 						'id'    => $field_id . '_product_shipping_hidden_dimension_height',
@@ -686,7 +686,7 @@ class bf_woo_elem_form_builder {
 
 				// Shipping Hidden Shipping Class
 				$tax_shipping_class       = array();
-				$tax_shipping_class['-1'] = __( 'No shipping class', 'woocommerce' );
+				$tax_shipping_class['-1'] = __( 'No shipping class', 'buddyforms-woocommerce-form-elements' );
 				$tax_shipping_class_term  = WC_Shipping::instance()->get_shipping_classes();
 				/**
 				 * @var integer
@@ -701,7 +701,7 @@ class bf_woo_elem_form_builder {
 					unset( $tax_shipping_class_term );
 				}
 				$form_fields['Shipping']['product_shipping_hidden_shipping_class'] = new Element_Select(
-					'<b>' . __( 'Shipping class: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Shipping class: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_shipping_hidden_shipping_class]',
 					$tax_shipping_class,
 					array(
@@ -718,9 +718,9 @@ class bf_woo_elem_form_builder {
 					$product_up_sales = $buddyform['form_fields'][ $field_id ]['product_up_sales'];
 				}
 				$form_fields['Linked-Products']['product_up_sales'] = new Element_Checkbox(
-					'<b>' . __( 'Up - Sales', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Up - Sales', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_up_sales]',
-					array( 'hide_up_sales' => __( 'Hide Up - Sales', 'buddyforms' ) ),
+					array( 'hide_up_sales' => __( 'Hide Up - Sales', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => 'product_up_sales_' . $field_id,
 						'value' => $product_up_sales,
@@ -732,9 +732,9 @@ class bf_woo_elem_form_builder {
 					$product_cross_sales = $buddyform['form_fields'][ $field_id ]['product_cross_sales'];
 				}
 				$form_fields['Linked-Products']['product_cross_sales'] = new Element_Checkbox(
-					'<b>' . __( 'Cross Sales', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Cross Sales', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_cross_sales]',
-					array( 'hide_cross_sales' => __( 'Hide Cross Sales', 'buddyforms' ) ),
+					array( 'hide_cross_sales' => __( 'Hide Cross Sales', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => 'product_cross_sales_' . $field_id,
 						'value' => $product_cross_sales,
@@ -746,9 +746,9 @@ class bf_woo_elem_form_builder {
 					$product_grouping = $buddyform['form_fields'][ $field_id ]['product_grouping'];
 				}
 				$form_fields['Linked-Products']['product_grouping'] = new Element_Checkbox(
-					'<b>' . __( 'Grouping', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Grouping', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][product_grouping]',
-					array( 'hide_grouping' => __( 'Hide Grouping', 'buddyforms' ) ),
+					array( 'hide_grouping' => __( 'Hide Grouping', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => 'product_grouping' . $field_id,
 						'value' => $product_grouping,
@@ -757,9 +757,9 @@ class bf_woo_elem_form_builder {
 
 				// Attributes
 				$form_fields['Attributes']['attributes_hide_tab'] = new Element_Checkbox(
-					'<b>' . __( 'Tab Attributes', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Tab Attributes', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][attributes_hide_tab]',
-					array( 'hide_attributes' => __( 'Hide Attributes Tab', 'buddyforms' ) ),
+					array( 'hide_attributes' => __( 'Hide Attributes Tab', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => 'attributes_hide_tab_' . $field_id,
 						'value' => isset( $buddyform['form_fields'][ $field_id ]['attributes_hide_tab'] ) ? $buddyform['form_fields'][ $field_id ]['attributes_hide_tab'] : 'false',
@@ -768,9 +768,9 @@ class bf_woo_elem_form_builder {
 
 				// Variations
 				$form_fields['Variations']['variations_hide_tab'] = new Element_Checkbox(
-					'<b>' . __( 'Tab Variations', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Tab Variations', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][variations_hide_tab]',
-					array( 'hide_variations' => __( 'Hide Variations Tab', 'buddyforms' ) ),
+					array( 'hide_variations' => __( 'Hide Variations Tab', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => 'variations_hide_tab_' . $field_id,
 						'value' => isset( $buddyform['form_fields'][ $field_id ]['variations_hide_tab'] ) ? $buddyform['form_fields'][ $field_id ]['variations_hide_tab'] : 'false',
@@ -781,9 +781,9 @@ class bf_woo_elem_form_builder {
 				// Purchase note
 				$hide_element = isset( $buddyform['form_fields'][ $field_id ]['hide_purchase_notes'] ) ? $buddyform['form_fields'][ $field_id ]['hide_purchase_notes'] : 'false';
 				$element      = new Element_Checkbox(
-					'<b>' . __( 'Hide Purchase note: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Hide Purchase note: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][hide_purchase_notes]',
-					array( 'hide_advanced' => __( 'Hide', 'buddyforms' ) ),
+					array( 'hide_advanced' => __( 'Hide', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => $field_id . '_hide_purchase_notes',
 						'class' => 'bf_hidden_checkbox',
@@ -793,7 +793,7 @@ class bf_woo_elem_form_builder {
 				$element->setAttribute( 'bf_hidden_checkbox', $field_id . '_purchase_notes' );
 				$form_fields['Advanced']['hide_purchase_notes'] = $element;
 				$form_fields['Advanced']['purchase_notes']      = new Element_Textarea(
-					'<b>' . __( 'Purchase note: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Purchase note: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][purchase_notes]',
 					array(
 						'id'    => $field_id . '_purchase_notes',
@@ -807,9 +807,9 @@ class bf_woo_elem_form_builder {
 				// Menu Order
 				$hide_element = isset( $buddyform['form_fields'][ $field_id ]['hide_menu_order'] ) ? $buddyform['form_fields'][ $field_id ]['hide_menu_order'] : 'false';
 				$element      = new Element_Checkbox(
-					'<b>' . __( 'Hide Menu order: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Hide Menu order: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][hide_menu_order]',
-					array( 'hide_menu_order' => __( 'Hide', 'buddyforms' ) ),
+					array( 'hide_menu_order' => __( 'Hide', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => $field_id . '_hide_menu_order',
 						'class' => 'bf_hidden_checkbox',
@@ -820,7 +820,7 @@ class bf_woo_elem_form_builder {
 				$element->setAttribute( 'bf_hidden_checkbox', $data );
 				$form_fields['Advanced']['hide_menu_order'] = $element;
 				$form_fields['Advanced']['menu_order']      = new Element_Number(
-					'<b>' . __( 'Menu order: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Menu order: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][menu_order]',
 					array(
 						'id'    => $field_id . '_menu_order',
@@ -833,9 +833,9 @@ class bf_woo_elem_form_builder {
 				// Enable Review Order
 				$hide_element = isset( $buddyform['form_fields'][ $field_id ]['hide_enable_review_orders'] ) ? $buddyform['form_fields'][ $field_id ]['hide_enable_review_orders'] : 'false';
 				$element      = new Element_Checkbox(
-					'<b>' . __( 'Hide Enable reviews: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Hide Enable reviews: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][hide_enable_review_orders]',
-					array( 'hide_review_order' => __( 'Hide', 'buddyforms' ) ),
+					array( 'hide_review_order' => __( 'Hide', 'buddyforms-woocommerce-form-elements' ) ),
 					array(
 						'id'    => $field_id . '_hide_enable_review_orders',
 						'class' => 'bf_hidden_checkbox',
@@ -846,11 +846,11 @@ class bf_woo_elem_form_builder {
 				$element->setAttribute( 'bf_hidden_checkbox', $data );
 				$form_fields['Advanced']['hide_enable_review_orders'] = $element;
 				$form_fields['Advanced']['enable_review_orders']      = new Element_Select(
-					'<b>' . __( 'Enable reviews Value: ', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Enable reviews Value: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][enable_review_orders]',
 					array(
-						'yes' => __( 'Yes', 'buddyforms' ),
-						'no'  => __( 'No', 'buddyforms' ),
+						'yes' => __( 'Yes', 'buddyforms-woocommerce-form-elements' ),
+						'no'  => __( 'No', 'buddyforms-woocommerce-form-elements' ),
 					),
 					array(
 						'id'    => $field_id . '_enable_review_orders',
@@ -863,7 +863,7 @@ class bf_woo_elem_form_builder {
 				$product_data_tabs_unhandled   = bf_woo_elem_manager::get_unhandled_tabs();
 				$product_data_tabs_implemented = apply_filters( 'bf_woo_element_woo_implemented_tab', array() );
 				$product_data_tabs             = apply_filters( 'woocommerce_product_data_tabs', array_merge( $product_data_tabs_unhandled, array() ) );
-				$form_fields['Front-Tabs-Handler']['product_data_tabs_implemented'] = new Element_HTML( '<h2>' . __( 'The Front Tabs Handler allow hide or show the Woocommerce Tabs that are not integrated with the BuddyForms-Wocommerce-Form-Element plugin ', 'buddyforms' ) . '</h2>' );
+				$form_fields['Front-Tabs-Handler']['product_data_tabs_implemented'] = new Element_HTML( '<h2>' . __( 'The Front Tabs Handler allow hide or show the Woocommerce Tabs that are not integrated with the BuddyForms-Wocommerce-Form-Element plugin ', 'buddyforms-woocommerce-form-elements' ) . '</h2>' );
 				if ( ! empty( $product_data_tabs ) && is_array( $product_data_tabs ) && count( $product_data_tabs ) > 0 ) {
 					foreach ( $product_data_tabs as $tab_key => $tab ) {
 						if ( in_array( $tab_key, $product_data_tabs_implemented, true ) ) {
@@ -876,7 +876,7 @@ class bf_woo_elem_form_builder {
 						$form_fields['Front-Tabs-Handler'][ $tab_key ] = new Element_Checkbox(
 							'<b>' . $tab['label'] . '</b>',
 							'buddyforms_options[form_fields][' . $field_id . '][' . $tab_key . ']',
-							array( 'hide_remove' => __( 'Remove', 'buddyforms' ) ),
+							array( 'hide_remove' => __( 'Remove', 'buddyforms-woocommerce-form-elements' ) ),
 							array(
 								'id'    => $tab_key . $field_id,
 								'value' => $tab_value,
@@ -888,9 +888,9 @@ class bf_woo_elem_form_builder {
 				break;
 			case 'product-gallery':
 				unset( $form_fields );
-				$name                           = isset( $buddyform['form_fields'][ $field_id ]['name'] ) ? stripcslashes( $buddyform['form_fields'][ $field_id ]['name'] ) : __( 'Product gallery', 'woocommerce' );
+				$name                           = isset( $buddyform['form_fields'][ $field_id ]['name'] ) ? stripcslashes( $buddyform['form_fields'][ $field_id ]['name'] ) : __( 'Product gallery', 'buddyforms-woocommerce-form-elements' );
 				$form_fields['general']['name'] = new Element_Textbox(
-					'<b>' . __( 'Label', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Label', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][name]',
 					array(
 						'value'    => $name,
@@ -899,19 +899,19 @@ class bf_woo_elem_form_builder {
 				);
 
 				$description                           = isset( $buddyform['form_fields'][ $field_id ]['description'] ) ? stripcslashes( $buddyform['form_fields'][ $field_id ]['description'] ) : '';
-				$form_fields['general']['description'] = new Element_Textbox( '<b>' . __( 'Description:', 'buddyforms' ) . '</b>', 'buddyforms_options[form_fields][' . $field_id . '][description]', array( 'value' => $description ) );
+				$form_fields['general']['description'] = new Element_Textbox( '<b>' . __( 'Description:', 'buddyforms-woocommerce-form-elements' ) . '</b>', 'buddyforms_options[form_fields][' . $field_id . '][description]', array( 'value' => $description ) );
 
-				$button_text                           = isset( $buddyform['form_fields'][ $field_id ]['button_text'] ) ? stripcslashes( $buddyform['form_fields'][ $field_id ]['button_text'] ) : __( 'Add product gallery images', 'woocommerce' );
-				$form_fields['general']['button_text'] = new Element_Textbox( '<b>' . __( 'Button Text:', 'buddyforms' ) . '</b>', 'buddyforms_options[form_fields][' . $field_id . '][button_text]', array( 'value' => $button_text ) );
+				$button_text                           = isset( $buddyform['form_fields'][ $field_id ]['button_text'] ) ? stripcslashes( $buddyform['form_fields'][ $field_id ]['button_text'] ) : __( 'Add product gallery images', 'buddyforms-woocommerce-form-elements' );
+				$form_fields['general']['button_text'] = new Element_Textbox( '<b>' . __( 'Button Text:', 'buddyforms-woocommerce-form-elements' ) . '</b>', 'buddyforms_options[form_fields][' . $field_id . '][button_text]', array( 'value' => $button_text ) );
 
 				$form_fields['hidden']['slug'] = new Element_Hidden( 'buddyforms_options[form_fields][' . $field_id . '][slug]', '_gallery' );
 				$form_fields['hidden']['type'] = new Element_Hidden( 'buddyforms_options[form_fields][' . $field_id . '][type]', $field_type );
 
 				$required                              = isset( $buddyform['form_fields'][ $field_id ]['required'] ) ? $buddyform['form_fields'][ $field_id ]['required'] : 'false';
 				$form_fields['validation']['required'] = new Element_Checkbox(
-					'<b>' . __( 'Required', 'buddyforms' ) . '</b>',
+					'<b>' . __( 'Required', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 					'buddyforms_options[form_fields][' . $field_id . '][required]',
-					array( 'required' => '<b>' . __( 'Make this field a required field', 'buddyforms' ) . '</b>' ),
+					array( 'required' => '<b>' . __( 'Make this field a required field', 'buddyforms-woocommerce-form-elements' ) . '</b>' ),
 					array(
 						'value' => $required,
 						'id'    => 'buddyforms_options[form_fields][' . $field_id . '][required]',
@@ -921,10 +921,10 @@ class bf_woo_elem_form_builder {
 				$field_slug                      = isset( $buddyform['form_fields'][ $field_id ]['slug'] ) ? $buddyform['form_fields'][ $field_id ]['slug'] : '';
 				$field_slug                      = empty( $field_slug ) === false ? buddyforms_sanitize_slug( $field_slug ) : 'product-gallery';
 				$form_fields['advanced']['slug'] = new Element_Textbox(
-					'<b>' . __( 'Slug', 'buddyforms' ) . '</b> <small>(optional)</small>',
+					'<b>' . __( 'Slug', 'buddyforms-woocommerce-form-elements' ) . '</b> <small>(optional)</small>',
 					'buddyforms_options[form_fields][' . $field_id . '][slug]',
 					array(
-						'shortDesc' => __( 'Underscore before the slug like _name will create a hidden post meta field', 'buddyforms' ),
+						'shortDesc' => __( 'Underscore before the slug like _name will create a hidden post meta field', 'buddyforms-woocommerce-form-elements' ),
 						'value'     => $field_slug,
 						'required'  => 1,
 						'class'     => 'slug' . $field_id,

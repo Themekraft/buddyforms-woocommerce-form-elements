@@ -1,4 +1,8 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /*
  * @package WordPress
  * @subpackage BuddyPress, Woocommerce, BuddyForms
@@ -13,7 +17,7 @@ if ( class_exists( 'Element_Select' ) ) {
 		public static function definition() {
 			return array(
 				'product-type' => array(
-					'label'  => __( 'Product Type', 'buddyforms' ),
+					'label'  => __( 'Product Type', 'buddyforms-woocommerce-form-elements' ),
 					'unique' => 'unique',
 				),
 			);
@@ -54,7 +58,7 @@ if ( class_exists( 'Element_Select' ) ) {
 			$product_type_selector = wc_get_product_types();
 
 			$form_fields['general']['product_type_default'] = new Element_Select(
-				'<b>' . __( 'Default Product Type: ', 'buddyforms' ) . '</b>',
+				'<b>' . __( 'Default Product Type: ', 'buddyforms-woocommerce-form-elements' ) . '</b>',
 				'buddyforms_options[form_fields][' . $field_id . '][product_type_default]',
 				$product_type_selector,
 				array(
@@ -66,7 +70,7 @@ if ( class_exists( 'Element_Select' ) ) {
 			);
 
 			$hidden                                  = isset( $buddyforms['form_fields'][ $field_id ]['hidden_field'] ) ? $buddyforms['form_fields'][ $field_id ]['hidden_field'] : false;
-			$form_fields['advanced']['hidden_field'] = new Element_Checkbox( '<b>' . __( 'Hidden?', 'buddyforms' ) . '</b>', 'buddyforms_options[form_fields][' . $field_id . '][hidden_field]', array( 'hidden_field' => '<b>' . __( 'Make this field Hidden', 'buddyforms' ) . '</b>' ), array( 'value' => $hidden ) );
+			$form_fields['advanced']['hidden_field'] = new Element_Checkbox( '<b>' . __( 'Hidden?', 'buddyforms-woocommerce-form-elements' ) . '</b>', 'buddyforms_options[form_fields][' . $field_id . '][hidden_field]', array( 'hidden_field' => '<b>' . __( 'Make this field Hidden', 'buddyforms-woocommerce-form-elements' ) . '</b>' ), array( 'value' => $hidden ) );
 
 			return $form_fields;
 		}

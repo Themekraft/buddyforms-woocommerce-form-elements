@@ -2,9 +2,10 @@
 
 Contributors: svenl77, konradS, buddyforms, themekraft, gfirem
 Tags: buddypress, user, members, profiles, custom post types, taxonomy, frontend posting, frontend editing,
-Requires at least: 3.9
-Tested up to: 6.1.1
-Stable tag: 1.5.11
+Requires at least: 5.9
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 1.5.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,6 +94,11 @@ The plugin should work with every theme. (Please let us know if you experience a
 
 
 == Changelog ==
+= 1.5.12 - 03 Oct 2026 =
+* Required plugins are now declared with the WordPress "Requires Plugins" header instead of the bundled TGM Plugin Activation library.
+* Fixed translations: every string now uses the plugin's own text domain.
+* Requires WordPress 5.9 and PHP 7.4. Tested up to WordPress 7.1.
+
 = 1.5.11 - 20 Dec 2022 =
 * Fixed some CSS glitches.
 * Added jquery to hide empty variations price popup.
