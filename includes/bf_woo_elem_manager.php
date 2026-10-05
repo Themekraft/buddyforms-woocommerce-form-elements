@@ -59,6 +59,10 @@ class bf_woo_elem_manager {
 		if ( ! function_exists( 'woocommerce_wp_text_input' ) ) {
 			include_once WC()->plugin_path() . '/includes/admin/wc-meta-box-functions.php';
 		}
+		// The product data meta box calls admin-only helpers such as wc_get_default_product_type_options() (WooCommerce 7.9+).
+		if ( ! function_exists( 'wc_get_default_product_type_options' ) ) {
+			include_once WC()->plugin_path() . '/includes/admin/wc-admin-functions.php';
+		}
 	}
 
 	public static function get_slug() {

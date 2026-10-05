@@ -17,7 +17,7 @@
  *
  ******************************************************************************
  * WC requires at least: 3.7.0
- * WC tested up to: 6.3.0
+ * WC tested up to: 11.1
  *****************************************************************************
  *
  * This script is free software; you can redistribute it and/or modify
@@ -40,6 +40,15 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+
+add_action(
+	'before_woocommerce_init',
+	function () {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
+	}
+);
 
 if ( ! function_exists( 'buddyforms_addon_plugin_dependencies_slug' ) ) {
 	/**
