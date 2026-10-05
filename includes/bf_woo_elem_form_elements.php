@@ -514,7 +514,7 @@ class bf_woo_elem_form_element {
 		$post_id  = isset( $post->ID ) ? $post->ID : '';
 		$currency = '';
 		$order    = wc_get_order( $post_id );
-		$currency = $order ? $order->get_order_currency() : '';
+		$currency = $order ? $order->get_currency() : '';
 		$params   = array(
 			'remove_item_notice'            => __( 'Are you sure you want to remove the selected items? If you have previously reduced this item\'s stock, or this order was submitted by a customer, you will need to manually restore the item\'s stock.', 'buddyforms-woocommerce-form-elements' ),
 			'i18n_select_items'             => __( 'Please select some items.', 'buddyforms-woocommerce-form-elements' ),
