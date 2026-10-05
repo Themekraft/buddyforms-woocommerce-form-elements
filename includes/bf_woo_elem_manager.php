@@ -10,7 +10,7 @@
 
 class bf_woo_elem_manager {
 
-	protected static $version = '1.5.12';
+	protected static $version = '1.5.13';
 
 	private static $plugin_slug = 'bf_woo_elem';
 
