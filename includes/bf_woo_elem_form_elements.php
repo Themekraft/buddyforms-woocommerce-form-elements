@@ -39,6 +39,31 @@ function buddyforms2_is_gutenberg_page() {
 class bf_woo_elem_form_element {
 	private $current_post_id;
 
+	/**
+	 * Whether a form creates WooCommerce products.
+	 *
+	 * The WooCommerce elements only work on forms whose post type is Product. On any
+	 * other form the entry is not a product, and since BuddyForms 2.10.6 a submission
+	 * whose entry is of another post type than the form's is rejected.
+	 *
+	 * @param string $form_slug The form slug.
+	 *
+	 * @return bool
+	 */
+	public static function form_creates_products( $form_slug ) {
+		if ( empty( $form_slug ) ) {
+			return false;
+		}
+		if ( function_exists( 'buddyforms_get_form_post_type' ) ) {
+			$post_type = buddyforms_get_form_post_type( $form_slug );
+		} else {
+			global $buddyforms;
+			$post_type = isset( $buddyforms[ $form_slug ]['post_type'] ) ? $buddyforms[ $form_slug ]['post_type'] : '';
+		}
+
+		return 'product' === $post_type;
+	}
+
 	public function __construct() {
 		// check if block and get out of here for now
 		// @todo Add Block Support if possible
@@ -111,7 +136,7 @@ class bf_woo_elem_form_element {
 					break;
 				}
 			}
-			if ( $exist ) {
+			if ( $exist && self::form_creates_products( isset( $args['form_slug'] ) ? $args['form_slug'] : '' ) ) {
 				if ( ! empty( $_GET['post'] ) ) {
 					$this->current_post_id = intval( wp_unslash( $_GET['post'] ) );
 				} else {
@@ -141,6 +166,17 @@ class bf_woo_elem_form_element {
 		extract( $form_args );
 
 		if ( ! isset( $customfield['type'] ) ) {
+			return $form;
+		}
+		if ( ( $customfield['type'] === 'woocommerce' || $customfield['type'] === 'product-gallery' ) && ! self::form_creates_products( isset( $form_args['form_slug'] ) ? $form_args['form_slug'] : '' ) ) {
+			if ( current_user_can( 'manage_options' ) ) {
+				$form->addElement(
+					new Element_HTML(
+						'<p class="bf-woo-elem-notice">' . esc_html__( 'The WooCommerce fields are not shown because this form does not create products. Set the form\'s post type to Product to use them. Only administrators see this message.', 'buddyforms-woocommerce-form-elements' ) . '</p>'
+					)
+				);
+			}
+
 			return $form;
 		}
 		if ( ( $customfield['type'] === 'woocommerce' || $customfield['type'] === 'product-gallery' ) && is_user_logged_in() ) {
@@ -226,7 +262,14 @@ class bf_woo_elem_form_element {
 			WC_VERSION
 		);
 		wp_register_script( 'jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), '2.70', true );
-		wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip' . $suffix . '.js', array( 'jquery' ), WC_VERSION, true );
+		$tiptip_deps = array( 'jquery' );
+		if ( file_exists( WC()->plugin_path() . '/assets/js/dompurify/purify' . $suffix . '.js' ) ) {
+			if ( ! wp_script_is( 'dompurify', 'registered' ) ) {
+				wp_register_script( 'dompurify', WC()->plugin_url() . '/assets/js/dompurify/purify' . $suffix . '.js', array(), WC_VERSION, true );
+			}
+			$tiptip_deps[] = 'dompurify';
+		}
+		wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip' . $suffix . '.js', $tiptip_deps, WC_VERSION, true );
 		wp_register_script( 'round', WC()->plugin_url() . '/assets/js/round/round' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
 		wp_register_script(
 			'wc-admin-meta-boxes',
@@ -644,7 +687,7 @@ class bf_woo_elem_form_element {
 		}
 		$option['debug']        = SCRIPT_DEBUG;
 		$option['debug_hidden'] = false;
-		wp_enqueue_script( 'general_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_general_settings.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'general_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_general_settings.js', array( 'jquery' ), bf_woo_elem_manager::get_version(), true );
 		wp_enqueue_script( 'hooks_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_hooks.js', array( 'jquery' ), null, true );
 		wp_localize_script( 'general_settings', 'general_settings_param', $option );
 	}

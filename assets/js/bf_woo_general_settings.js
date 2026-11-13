@@ -302,7 +302,9 @@ jQuery(document).ready(function ($) {
             var salesPrice = general_settings_param.product_sales_price;
             if (salesPrice === "hidden") {
                 hide_general_sales_price = true;
-                if(general_settings_param.sales_price_amount){
+                // The builder saves 0 as the default amount. A sale price of 0 makes the product free,
+                // so only use the amount when the admin set a real one.
+                if (general_settings_param.sales_price_amount && parseFloat(general_settings_param.sales_price_amount) > 0) {
                     $('#_sale_price').val(general_settings_param.sales_price_amount);
                 }
                 sale_price.hide();

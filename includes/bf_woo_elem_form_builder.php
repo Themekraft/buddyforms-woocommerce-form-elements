@@ -18,6 +18,50 @@ class bf_woo_elem_form_builder {
 		add_filter( 'buddyforms_form_element_add_field', array( $this, 'buddyforms_woocommerce_create_new_form_builder_form_element' ), 999, 5 );
 		add_filter( 'bf_submission_column_default', array( $this, 'buddyforms_woo_elem_custom_column_default' ), 10, 4 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_js_for_builder' ), 9999 );
+		add_action( 'admin_footer', array( $this, 'product_forms_only_script' ) );
+	}
+
+	/**
+	 * Only offer the WooCommerce elements on forms whose post type is Product.
+	 *
+	 * The post type can change in the builder without a reload, so the options are
+	 * turned off and on in the browser.
+	 */
+	public function product_forms_only_script() {
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( empty( $screen ) || 'buddyforms' !== $screen->post_type || 'post' !== $screen->base ) {
+			return;
+		}
+		$note = __( '(Product forms only)', 'buddyforms-woocommerce-form-elements' );
+		$js   = '(function ($) {
+	var note = ' . wp_json_encode( $note ) . ';
+	function isProductForm() {
+		return $("#form_post_type").val() === "product";
+	}
+	function sync() {
+		var enabled = isProductForm();
+		$("#bf_add_new_form_element, #bf_add_new_form_element_modal").find("option[value=\"woocommerce\"], option[value=\"product-gallery\"]").each(function () {
+			var option = $(this);
+			if (!option.data("bfWooLabel")) {
+				option.data("bfWooLabel", option.text());
+			}
+			option.prop("disabled", !enabled).text(enabled ? option.data("bfWooLabel") : option.data("bfWooLabel") + " " + note);
+		});
+	}
+	$(function () {
+		sync();
+		$(document.body).on("change", "#form_post_type", sync);
+		if (window.BuddyFormsBuilderHooks) {
+			BuddyFormsBuilderHooks.addFilter("buddyforms:add_new_form_element", function (add, args) {
+				if (args && (args.fieldType === "woocommerce" || args.fieldType === "product-gallery") && !isProductForm()) {
+					return false;
+				}
+				return add;
+			});
+		}
+	});
+})(jQuery);';
+		wp_print_inline_script_tag( $js );
 	}
 
 	public function buddyforms_woo_elem_custom_column_default( $bf_value, $item, $column_name, $field_slug ) {
