@@ -69,7 +69,7 @@ class bf_woo_elem_form_builder {
 		if ( $column_name === 'woocommerce' ) {
 			$url           = get_permalink( $item->ID );
 			$product_title = get_the_title( $item->ID );
-			return " <a style='vertical-align: top;' target='_blank' href='" . $url . "'>${product_title}</a>";
+			return " <a style='vertical-align: top;' target='_blank' href='" . $url . "'>{$product_title}</a>";
 		}
 
 		if ( $column_name === 'product-gallery' ) {
