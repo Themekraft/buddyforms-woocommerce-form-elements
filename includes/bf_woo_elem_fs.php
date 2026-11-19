@@ -85,13 +85,9 @@ class bf_woo_elem_fs {
 
 		try {
 			if ( ! isset( $bf_woo_elem_fs ) ) {
-				// Include Freemius SDK.
-				if ( file_exists( dirname( dirname( __FILE__ ) ) . '/buddyforms/includes/resources/freemius/start.php' ) ) {
-					// Try to load SDK from parent plugin folder.
-					require_once dirname( dirname( __FILE__ ) ) . '/buddyforms/includes/resources/freemius/start.php';
-				} elseif ( file_exists( dirname( dirname( __FILE__ ) ) . '/buddyforms-premium/includes/resources/freemius/start.php' ) ) {
-					// Try to load SDK from premium parent plugin folder.
-					require_once dirname( dirname( __FILE__ ) ) . '/buddyforms-premium/includes/resources/freemius/start.php';
+				// The Freemius SDK comes with BuddyForms, which loads it before this add-on initializes.
+				if ( ! function_exists( 'fs_dynamic_init' ) ) {
+					return false;
 				}
 
 				$bf_woo_elem_fs = fs_dynamic_init(

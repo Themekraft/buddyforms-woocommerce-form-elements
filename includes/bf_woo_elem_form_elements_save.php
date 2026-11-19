@@ -36,6 +36,9 @@ class bf_woo_elem_form_elements_save {
 			$post = get_post( $post_id );
 
 			$form_slug   = buddyforms_get_form_slug_by_post_id( $post_id );
+			if ( ! bf_woo_elem_form_element::form_creates_products( $form_slug ) ) {
+				return;
+			}
 			$post_status = 'publish';
 			if ( ! empty( $form_slug ) ) {
 				global $buddyforms;

@@ -39,6 +39,38 @@ function buddyforms2_is_gutenberg_page() {
 class bf_woo_elem_form_element {
 	private $current_post_id;
 
+	/**
+	 * WooCommerce box markup waiting to be printed in the footer, keyed by placeholder id.
+	 *
+	 * @var array
+	 */
+	private $deferred_boxes = array();
+
+	/**
+	 * Whether a form creates WooCommerce products.
+	 *
+	 * The WooCommerce elements only work on forms whose post type is Product. On any
+	 * other form the entry is not a product, and since BuddyForms 2.10.6 a submission
+	 * whose entry is of another post type than the form's is rejected.
+	 *
+	 * @param string $form_slug The form slug.
+	 *
+	 * @return bool
+	 */
+	public static function form_creates_products( $form_slug ) {
+		if ( empty( $form_slug ) ) {
+			return false;
+		}
+		if ( function_exists( 'buddyforms_get_form_post_type' ) ) {
+			$post_type = buddyforms_get_form_post_type( $form_slug );
+		} else {
+			global $buddyforms;
+			$post_type = isset( $buddyforms[ $form_slug ]['post_type'] ) ? $buddyforms[ $form_slug ]['post_type'] : '';
+		}
+
+		return 'product' === $post_type;
+	}
+
 	public function __construct() {
 		// check if block and get out of here for now
 		// @todo Add Block Support if possible
@@ -111,7 +143,7 @@ class bf_woo_elem_form_element {
 					break;
 				}
 			}
-			if ( $exist ) {
+			if ( $exist && self::form_creates_products( isset( $args['form_slug'] ) ? $args['form_slug'] : '' ) ) {
 				if ( ! empty( $_GET['post'] ) ) {
 					$this->current_post_id = intval( wp_unslash( $_GET['post'] ) );
 				} else {
@@ -141,6 +173,17 @@ class bf_woo_elem_form_element {
 		extract( $form_args );
 
 		if ( ! isset( $customfield['type'] ) ) {
+			return $form;
+		}
+		if ( ( $customfield['type'] === 'woocommerce' || $customfield['type'] === 'product-gallery' ) && ! self::form_creates_products( isset( $form_args['form_slug'] ) ? $form_args['form_slug'] : '' ) ) {
+			if ( current_user_can( 'manage_options' ) ) {
+				$form->addElement(
+					new Element_HTML(
+						'<p class="bf-woo-elem-notice">' . esc_html__( 'The WooCommerce fields are not shown because this form does not create products. Set the form\'s post type to Product to use them. Only administrators see this message.', 'buddyforms-woocommerce-form-elements' ) . '</p>'
+					)
+				);
+			}
+
 			return $form;
 		}
 		if ( ( $customfield['type'] === 'woocommerce' || $customfield['type'] === 'product-gallery' ) && is_user_logged_in() ) {
@@ -197,10 +240,72 @@ class bf_woo_elem_form_element {
 			$get_contents = ob_get_contents();
 			ob_clean();
 
-			$form->addElement( new Element_HTML( $get_contents ) );
+			$form->addElement( new Element_HTML( $this->defer_box_markup( $get_contents, $id ) ) );
 		}
 
 		return $form;
+	}
+
+	/**
+	 * Keep a WooCommerce meta box out of BuddyForms' wp_kses() pass.
+	 *
+	 * BuddyForms filters the whole rendered form through wp_kses() with an allowlist that
+	 * strips markup the WooCommerce boxes depend on: the type and id of the Backbone modal
+	 * templates ("Create value", "Set regular prices"), the data attributes of the attribute
+	 * rows, term search selects and variations list, the gallery buttons and more. The form
+	 * gets a placeholder instead, and the box is printed in the footer and moved into the
+	 * placeholder before the footer scripts run.
+	 *
+	 * @param string $html   The box markup, as WooCommerce prints it in wp-admin.
+	 * @param string $box_id The box id.
+	 *
+	 * @return string The markup to add to the form.
+	 */
+	private function defer_box_markup( $html, $box_id ) {
+		// No footer will follow (AJAX render) or it already ran: keep the old behaviour.
+		if ( wp_doing_ajax() || did_action( 'wp_footer' ) || did_action( 'admin_footer' ) ) {
+			return $html;
+		}
+
+		$placeholder = 'bf-woo-elem-' . $box_id . '-' . ( count( $this->deferred_boxes ) + 1 );
+
+		$this->deferred_boxes[ $placeholder ] = $html;
+
+		if ( 1 === count( $this->deferred_boxes ) ) {
+			// Before wp_print_footer_scripts (20): the add-on's footer scripts expect the box in place.
+			add_action( 'wp_footer', array( $this, 'print_deferred_boxes' ), 1 );
+			add_action( 'admin_footer', array( $this, 'print_deferred_boxes' ), 1 );
+		}
+
+		return '<div id="' . esc_attr( $placeholder ) . '" class="bf-woo-elem-placeholder"></div>';
+	}
+
+	/**
+	 * Print the deferred WooCommerce boxes and move each into its placeholder in the form.
+	 */
+	public function print_deferred_boxes() {
+		if ( empty( $this->deferred_boxes ) ) {
+			return;
+		}
+
+		foreach ( $this->deferred_boxes as $placeholder => $html ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce's own meta box markup, escaped by WooCommerce as in wp-admin.
+			echo '<div data-bf-woo-elem-box="' . esc_attr( $placeholder ) . '" hidden>' . $html . '</div>' . "\n";
+		}
+		$this->deferred_boxes = array();
+
+		wp_print_inline_script_tag(
+			"document.querySelectorAll( 'div[data-bf-woo-elem-box]' ).forEach( function ( source ) {\n" .
+			"\tvar target = document.getElementById( source.getAttribute( 'data-bf-woo-elem-box' ) );\n" .
+			"\tif ( target ) {\n" .
+			"\t\twhile ( source.firstChild ) {\n" .
+			"\t\t\ttarget.parentNode.insertBefore( source.firstChild, target );\n" .
+			"\t\t}\n" .
+			"\t\ttarget.parentNode.removeChild( target );\n" .
+			"\t}\n" .
+			"\tsource.parentNode.removeChild( source );\n" .
+			"} );"
+		);
 	}
 
 	public static function add_scripts( $post ) {
@@ -226,7 +331,14 @@ class bf_woo_elem_form_element {
 			WC_VERSION
 		);
 		wp_register_script( 'jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), '2.70', true );
-		wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip' . $suffix . '.js', array( 'jquery' ), WC_VERSION, true );
+		$tiptip_deps = array( 'jquery' );
+		if ( file_exists( WC()->plugin_path() . '/assets/js/dompurify/purify' . $suffix . '.js' ) ) {
+			if ( ! wp_script_is( 'dompurify', 'registered' ) ) {
+				wp_register_script( 'dompurify', WC()->plugin_url() . '/assets/js/dompurify/purify' . $suffix . '.js', array(), WC_VERSION, true );
+			}
+			$tiptip_deps[] = 'dompurify';
+		}
+		wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip' . $suffix . '.js', $tiptip_deps, WC_VERSION, true );
 		wp_register_script( 'round', WC()->plugin_url() . '/assets/js/round/round' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
 		wp_register_script(
 			'wc-admin-meta-boxes',
@@ -375,6 +487,9 @@ class bf_woo_elem_form_element {
 				'search_products_nonce'     => wp_create_nonce( 'search-products' ),
 				'search_customers_nonce'    => wp_create_nonce( 'search-customers' ),
 				'search_categories_nonce'   => wp_create_nonce( 'search-categories' ),
+				// Attribute value search and "Select all" in the Attributes tab.
+				'search_taxonomy_terms_nonce' => wp_create_nonce( 'search-taxonomy-terms' ),
+				'search_product_attributes_nonce' => wp_create_nonce( 'search-product-attributes' ),
 			)
 		);
 
@@ -431,7 +546,9 @@ class bf_woo_elem_form_element {
 		}
 		// Meta boxes
 		wp_enqueue_media();
-		wp_register_script( 'wc-admin-product-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes-product' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
+		// The attribute term and variation price modals need WooCommerce's Backbone modal, and
+		// the variation script shows its notices through wp.data (as in wp-admin).
+		wp_register_script( 'wc-admin-product-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes-product' . $suffix . '.js', array( 'jquery', 'wc-backbone-modal' ), WC_VERSION );
 		wp_register_script(
 			'wc-admin-variation-meta-boxes',
 			WC()->plugin_url() . '/assets/js/admin/meta-boxes-product-variation' . $suffix . '.js',
@@ -439,6 +556,10 @@ class bf_woo_elem_form_element {
 				'wc-admin-meta-boxes',
 				'serializejson',
 				'media-models',
+				'backbone',
+				'wc-backbone-modal',
+				'wp-data',
+				'wp-notices',
 			),
 			WC_VERSION
 		);
@@ -471,12 +592,15 @@ class bf_woo_elem_form_element {
 			'i18n_scheduled_sale_start'           => esc_js( __( 'Sale start date (YYYY-MM-DD format or leave blank)', 'buddyforms-woocommerce-form-elements' ) ),
 			'i18n_scheduled_sale_end'             => esc_js( __( 'Sale end date (YYYY-MM-DD format or leave blank)', 'buddyforms-woocommerce-form-elements' ) ),
 			'i18n_edited_variations'              => esc_js( __( 'Save changes before changing page?', 'buddyforms-woocommerce-form-elements' ) ),
+			'i18n_generate_variations'            => esc_js( __( 'Generate variations', 'buddyforms-woocommerce-form-elements' ) ),
 			'i18n_variation_count_single'         => esc_js( __( '%qty% variation', 'buddyforms-woocommerce-form-elements' ) ),
 			'i18n_variation_count_plural'         => esc_js( __( '%qty% variations', 'buddyforms-woocommerce-form-elements' ) ),
 			'variations_per_page'                 => absint( apply_filters( 'woocommerce_admin_meta_boxes_variations_per_page', 15 ) ),
 		);
 
 		wp_localize_script( 'wc-admin-variation-meta-boxes', 'woocommerce_admin_meta_boxes_variations', $params );
+		// WooCommerce Tracks only loads in wp-admin; the variation actions call it after their request.
+		wp_add_inline_script( 'wc-admin-variation-meta-boxes', 'window.wcTracks = window.wcTracks || { recordEvent: function () {} };', 'before' );
 
 		if ( in_array( str_replace( 'edit-', '', $screen_id ), wc_get_order_types( 'order-meta-boxes' ) ) ) {
 			$default_location = wc_get_customer_default_location();
@@ -644,7 +768,7 @@ class bf_woo_elem_form_element {
 		}
 		$option['debug']        = SCRIPT_DEBUG;
 		$option['debug_hidden'] = false;
-		wp_enqueue_script( 'general_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_general_settings.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'general_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_general_settings.js', array( 'jquery' ), bf_woo_elem_manager::get_version(), true );
 		wp_enqueue_script( 'hooks_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_hooks.js', array( 'jquery' ), null, true );
 		wp_localize_script( 'general_settings', 'general_settings_param', $option );
 	}
