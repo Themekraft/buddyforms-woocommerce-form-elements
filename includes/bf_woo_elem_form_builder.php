@@ -128,12 +128,12 @@ class bf_woo_elem_form_builder {
 
 		$this->load_script = true;
 		if ( $this->load_script ) {
-			wp_enqueue_script( 'jquery-ui-datepicker1', BF_WOO_ELEM_JS_PATH . 'jquery.datetimepicker.full.js', array( 'jquery' ), null, true );
-			wp_enqueue_script( 'bf_woo_jvalidate', BF_WOO_ELEM_JS_PATH . 'jquery.validate.min.js', array( 'jquery' ), null, true );
-			wp_enqueue_script( 'bf_woo_builder', BF_WOO_ELEM_JS_PATH . 'bf_woo_builder.js', array( 'jquery', 'jquery-ui-datepicker1' ), null, false );
+			wp_enqueue_script( 'jquery-ui-datepicker1', BF_WOO_ELEM_JS_PATH . 'jquery.datetimepicker.full.js', array( 'jquery' ), bf_woo_elem_manager::get_version(), true );
+			wp_enqueue_script( 'bf_woo_jvalidate', BF_WOO_ELEM_JS_PATH . 'jquery.validate.min.js', array( 'jquery' ), bf_woo_elem_manager::get_version(), true );
+			wp_enqueue_script( 'bf_woo_builder', BF_WOO_ELEM_JS_PATH . 'bf_woo_builder.js', array( 'jquery', 'jquery-ui-datepicker1' ), bf_woo_elem_manager::get_version(), false );
 			do_action( 'include_bf_woo_booking_scripts' );
 			wp_enqueue_style( 'bf_woo_builder', BF_WOO_ELEM_CSS_PATH . 'buddyforms-woocommerce.css', array(), bf_woo_elem_manager::get_version() );
-			wp_enqueue_style( 'jquery-ui-datepicker2', BF_WOO_ELEM_CSS_PATH . 'jquery.datetimepicker.min.css' );
+			wp_enqueue_style( 'jquery-ui-datepicker2', BF_WOO_ELEM_CSS_PATH . 'jquery.datetimepicker.min.css', array(), bf_woo_elem_manager::get_version() );
 			$param_builder = array( 'field_id' => $field_id );
 			wp_localize_script( 'bf_woo_builder', 'bf_woo_elem_builder', $param_builder );
 		}
@@ -151,7 +151,7 @@ class bf_woo_elem_form_builder {
 				$form_fields['hidden']['type'] = new Element_Hidden( 'buddyforms_options[form_fields][' . $field_id . '][type]', $field_type );
 
 				$product_type_options = apply_filters(
-					'product_type_options',
+					'product_type_options', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce hook.
 					array(
 						'virtual'      => array(
 							'id'            => '_virtual',
@@ -259,10 +259,10 @@ class bf_woo_elem_form_builder {
 					$product_type_default = $buddyform['form_fields'][ $field_id ]['product_type_default'];
 				}
 
-				$product_type = apply_filters( 'default_product_type', 'simple' );
+				$product_type = apply_filters( 'default_product_type', 'simple' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce hook.
 
 				$product_type_selector = apply_filters(
-					'product_type_selector',
+					'product_type_selector', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce hook.
 					array(
 						'simple'   => __( 'Simple product', 'buddyforms-woocommerce-form-elements' ),
 						'grouped'  => __( 'Grouped product', 'buddyforms-woocommerce-form-elements' ),

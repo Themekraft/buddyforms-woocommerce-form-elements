@@ -111,6 +111,7 @@ class bf_woo_elem_form_element {
 			 *
 			 * @return string
 			 */
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- fallback for WooCommerce's own wc_help_tip(), only declared when WooCommerce does not.
 			function wc_help_tip( $tip, $allow_html = false ) {
 				if ( $allow_html ) {
 					$tip = wc_sanitize_tooltip( $tip );
@@ -144,8 +145,10 @@ class bf_woo_elem_form_element {
 				}
 			}
 			if ( $exist && self::form_creates_products( isset( $args['form_slug'] ) ? $args['form_slug'] : '' ) ) {
+				// phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only post ID of the product being edited; saving goes through the nonce-checked BuddyForms submission.
 				if ( ! empty( $_GET['post'] ) ) {
 					$this->current_post_id = intval( wp_unslash( $_GET['post'] ) );
+					// phpcs:enable WordPress.Security.NonceVerification.Recommended
 				} else {
 					if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
 						exit;
@@ -328,7 +331,8 @@ class bf_woo_elem_form_element {
 				'jquery-ui-core',
 				'jquery-tiptip',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script( 'jquery-blockui', WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI' . $suffix . '.js', array( 'jquery' ), '2.70', true );
 		$tiptip_deps = array( 'jquery' );
@@ -339,7 +343,7 @@ class bf_woo_elem_form_element {
 			$tiptip_deps[] = 'dompurify';
 		}
 		wp_register_script( 'jquery-tiptip', WC()->plugin_url() . '/assets/js/jquery-tiptip/jquery.tipTip' . $suffix . '.js', $tiptip_deps, WC_VERSION, true );
-		wp_register_script( 'round', WC()->plugin_url() . '/assets/js/round/round' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
+		wp_register_script( 'round', WC()->plugin_url() . '/assets/js/round/round' . $suffix . '.js', array( 'jquery' ), WC_VERSION, false );
 		wp_register_script(
 			'wc-admin-meta-boxes',
 			WC()->plugin_url() . '/assets/js/admin/meta-boxes' . $suffix . '.js',
@@ -354,13 +358,14 @@ class bf_woo_elem_form_element {
 				'stupidtable',
 				'jquery-tiptip',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
-		wp_register_script( 'zeroclipboard', WC()->plugin_url() . '/assets/js/zeroclipboard/jquery.zeroclipboard' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
-		wp_register_script( 'qrcode', WC()->plugin_url() . '/assets/js/jquery-qrcode/jquery.qrcode' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
-		wp_register_script( 'stupidtable', WC()->plugin_url() . '/assets/js/stupidtable/stupidtable' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
-		wp_register_script( 'serializejson', WC()->plugin_url() . '/assets/js/jquery-serializejson/jquery.serializejson' . $suffix . '.js', array( 'jquery' ), '2.8.1' );
-		wp_register_script( 'flot', WC()->plugin_url() . '/assets/js/jquery-flot/jquery.flot' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
+		wp_register_script( 'zeroclipboard', WC()->plugin_url() . '/assets/js/zeroclipboard/jquery.zeroclipboard' . $suffix . '.js', array( 'jquery' ), WC_VERSION, false );
+		wp_register_script( 'qrcode', WC()->plugin_url() . '/assets/js/jquery-qrcode/jquery.qrcode' . $suffix . '.js', array( 'jquery' ), WC_VERSION, false );
+		wp_register_script( 'stupidtable', WC()->plugin_url() . '/assets/js/stupidtable/stupidtable' . $suffix . '.js', array( 'jquery' ), WC_VERSION, false );
+		wp_register_script( 'serializejson', WC()->plugin_url() . '/assets/js/jquery-serializejson/jquery.serializejson' . $suffix . '.js', array( 'jquery' ), '2.8.1', false );
+		wp_register_script( 'flot', WC()->plugin_url() . '/assets/js/jquery-flot/jquery.flot' . $suffix . '.js', array( 'jquery' ), WC_VERSION, false );
 		wp_register_script(
 			'flot-resize',
 			WC()->plugin_url() . '/assets/js/jquery-flot/jquery.flot.resize' . $suffix . '.js',
@@ -368,7 +373,8 @@ class bf_woo_elem_form_element {
 				'jquery',
 				'flot',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script(
 			'flot-time',
@@ -377,7 +383,8 @@ class bf_woo_elem_form_element {
 				'jquery',
 				'flot',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script(
 			'flot-pie',
@@ -386,7 +393,8 @@ class bf_woo_elem_form_element {
 				'jquery',
 				'flot',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script(
 			'flot-stack',
@@ -395,7 +403,8 @@ class bf_woo_elem_form_element {
 				'jquery',
 				'flot',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script(
 			'wc-settings-tax',
@@ -407,7 +416,8 @@ class bf_woo_elem_form_element {
 				'backbone',
 				'jquery-blockui',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script(
 			'wc-backbone-modal',
@@ -417,7 +427,8 @@ class bf_woo_elem_form_element {
 				'backbone',
 				'wp-util',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script(
 			'wc-shipping-zones',
@@ -431,7 +442,8 @@ class bf_woo_elem_form_element {
 				'wc-enhanced-select',
 				'wc-backbone-modal',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script(
 			'wc-shipping-zone-methods',
@@ -444,7 +456,8 @@ class bf_woo_elem_form_element {
 				'jquery-ui-sortable',
 				'wc-backbone-modal',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_register_script(
 			'wc-shipping-classes',
@@ -455,11 +468,12 @@ class bf_woo_elem_form_element {
 				'underscore',
 				'backbone',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
-		wp_register_script( 'wc-clipboard', WC()->plugin_url() . '/assets/js/admin/wc-clipboard' . $suffix . '.js', array( 'jquery' ), WC_VERSION );
-		wp_register_script( 'select2', WC()->plugin_url() . '/assets/js/select2/select2.full' . $suffix . '.js', array( 'jquery' ), '4.0.3' );
-		wp_register_script( 'selectWoo', WC()->plugin_url() . '/assets/js/selectWoo/selectWoo.full' . $suffix . '.js', array( 'jquery' ), '1.0.4' );
+		wp_register_script( 'wc-clipboard', WC()->plugin_url() . '/assets/js/admin/wc-clipboard' . $suffix . '.js', array( 'jquery' ), WC_VERSION, false );
+		wp_register_script( 'select2', WC()->plugin_url() . '/assets/js/select2/select2.full' . $suffix . '.js', array( 'jquery' ), '4.0.3', false );
+		wp_register_script( 'selectWoo', WC()->plugin_url() . '/assets/js/selectWoo/selectWoo.full' . $suffix . '.js', array( 'jquery' ), '1.0.4', false );
 		wp_register_script(
 			'wc-enhanced-select',
 			WC()->plugin_url() . '/assets/js/admin/wc-enhanced-select' . $suffix . '.js',
@@ -467,7 +481,8 @@ class bf_woo_elem_form_element {
 				'jquery',
 				'selectWoo',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 		wp_localize_script(
 			'wc-enhanced-select',
@@ -540,7 +555,8 @@ class bf_woo_elem_form_element {
 					'jquery',
 					'woocommerce_admin',
 				),
-				WC_VERSION
+				WC_VERSION,
+				false
 			);
 			wp_enqueue_script( 'woocommerce_quick-edit' );
 		}
@@ -548,7 +564,7 @@ class bf_woo_elem_form_element {
 		wp_enqueue_media();
 		// The attribute term and variation price modals need WooCommerce's Backbone modal, and
 		// the variation script shows its notices through wp.data (as in wp-admin).
-		wp_register_script( 'wc-admin-product-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes-product' . $suffix . '.js', array( 'jquery', 'wc-backbone-modal' ), WC_VERSION );
+		wp_register_script( 'wc-admin-product-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes-product' . $suffix . '.js', array( 'jquery', 'wc-backbone-modal' ), WC_VERSION, false );
 		wp_register_script(
 			'wc-admin-variation-meta-boxes',
 			WC()->plugin_url() . '/assets/js/admin/meta-boxes-product-variation' . $suffix . '.js',
@@ -561,7 +577,8 @@ class bf_woo_elem_form_element {
 				'wp-data',
 				'wp-notices',
 			),
-			WC_VERSION
+			WC_VERSION,
+			false
 		);
 
 		wp_enqueue_script( 'wc-admin-product-meta-boxes' );
@@ -605,7 +622,7 @@ class bf_woo_elem_form_element {
 		if ( in_array( str_replace( 'edit-', '', $screen_id ), wc_get_order_types( 'order-meta-boxes' ) ) ) {
 			$default_location = wc_get_customer_default_location();
 
-			wp_enqueue_script( 'wc-admin-order-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes-order' . $suffix . '.js', array( 'wc-admin-meta-boxes', 'wc-backbone-modal', 'selectWoo', 'wc-clipboard' ), WC_VERSION );
+			wp_enqueue_script( 'wc-admin-order-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes-order' . $suffix . '.js', array( 'wc-admin-meta-boxes', 'wc-backbone-modal', 'selectWoo', 'wc-clipboard' ), WC_VERSION, false );
 			wp_localize_script(
 				'wc-admin-order-meta-boxes',
 				'woocommerce_admin_meta_boxes_order',
@@ -621,7 +638,7 @@ class bf_woo_elem_form_element {
 		}
 
 		if ( in_array( $screen_id, array( 'shop_coupon', 'edit-shop_coupon' ) ) ) {
-			wp_enqueue_script( 'wc-admin-coupon-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes-coupon' . $suffix . '.js', array( 'wc-admin-meta-boxes' ), WC_VERSION );
+			wp_enqueue_script( 'wc-admin-coupon-meta-boxes', WC()->plugin_url() . '/assets/js/admin/meta-boxes-coupon' . $suffix . '.js', array( 'wc-admin-meta-boxes' ), WC_VERSION, false );
 			wp_localize_script(
 				'wc-admin-coupon-meta-boxes',
 				'woocommerce_admin_meta_boxes_coupon',
@@ -746,11 +763,11 @@ class bf_woo_elem_form_element {
 			_deprecated_function( 'The woocommerce_admin_css action', '2.3', 'admin_enqueue_scripts' );
 		}
 
-		wp_enqueue_style( 'buddyforms-woocommerce', BF_WOO_ELEM_CSS_PATH . 'buddyforms-woocommerce.css' );
+		wp_enqueue_style( 'buddyforms-woocommerce', BF_WOO_ELEM_CSS_PATH . 'buddyforms-woocommerce.css', array(), bf_woo_elem_manager::get_version() );
 	}
 
 	public function add_product_gallery_option( $option ) {
-		wp_enqueue_script( 'product_gallery', BF_WOO_ELEM_JS_PATH . 'bf_woo_product_gallery.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'product_gallery', BF_WOO_ELEM_JS_PATH . 'bf_woo_product_gallery.js', array( 'jquery' ), bf_woo_elem_manager::get_version(), true );
 		wp_localize_script( 'product_gallery', 'product_gallery_param', $option );
 	}
 
@@ -769,7 +786,7 @@ class bf_woo_elem_form_element {
 		$option['debug']        = SCRIPT_DEBUG;
 		$option['debug_hidden'] = false;
 		wp_enqueue_script( 'general_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_general_settings.js', array( 'jquery' ), bf_woo_elem_manager::get_version(), true );
-		wp_enqueue_script( 'hooks_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_hooks.js', array( 'jquery' ), null, true );
+		wp_enqueue_script( 'hooks_settings', BF_WOO_ELEM_JS_PATH . 'bf_woo_hooks.js', array( 'jquery' ), bf_woo_elem_manager::get_version(), true );
 		wp_localize_script( 'general_settings', 'general_settings_param', $option );
 	}
 }
