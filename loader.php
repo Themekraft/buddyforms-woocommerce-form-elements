@@ -58,6 +58,7 @@ if ( ! function_exists( 'buddyforms_addon_plugin_dependencies_slug' ) ) {
 	 *
 	 * @return string
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- shared by every BuddyForms add-on behind function_exists(), so it keeps one name.
 	function buddyforms_addon_plugin_dependencies_slug( $slug ) {
 		if ( 'buddyforms' === $slug && defined( 'BUDDYFORMS_INSTALL_PATH' ) ) {
 			return basename( BUDDYFORMS_INSTALL_PATH );

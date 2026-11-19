@@ -47,7 +47,9 @@ class bf_woo_elem_manager {
 
 		require_once BF_WOO_ELEM_INCLUDES_PATH . 'bf_woo_elem_form_builder.php';
 		new bf_woo_elem_form_builder();
-		do_action( 'buddyforms_bookeable_product_display_element' );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- deprecated hook name, kept for backward compatibility until a future major release.
+		do_action_deprecated( 'buddyforms_bookeable_product_display_element', array(), '1.5.16', 'bf_woo_elem_bookable_product_display_element' );
+		do_action( 'bf_woo_elem_bookable_product_display_element' );
 		require_once WC()->plugin_path() . '/includes/admin/class-wc-admin-post-types.php';
 		require_once WC()->plugin_path() . '/includes/admin/meta-boxes/class-wc-meta-box-product-data.php';
 		require_once WC()->plugin_path() . '/includes/admin/meta-boxes/class-wc-meta-box-product-images.php';

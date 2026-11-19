@@ -131,7 +131,9 @@ class bf_woo_elem_form_builder {
 			wp_enqueue_script( 'jquery-ui-datepicker1', BF_WOO_ELEM_JS_PATH . 'jquery.datetimepicker.full.js', array( 'jquery' ), null, true );
 			wp_enqueue_script( 'bf_woo_jvalidate', BF_WOO_ELEM_JS_PATH . 'jquery.validate.min.js', array( 'jquery' ), null, true );
 			wp_enqueue_script( 'bf_woo_builder', BF_WOO_ELEM_JS_PATH . 'bf_woo_builder.js', array( 'jquery', 'jquery-ui-datepicker1' ), null, false );
-			do_action( 'include_bf_woo_booking_scripts' );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- deprecated hook name, kept for backward compatibility until a future major release.
+			do_action_deprecated( 'include_bf_woo_booking_scripts', array(), '1.5.16', 'bf_woo_elem_include_booking_scripts' );
+			do_action( 'bf_woo_elem_include_booking_scripts' );
 			wp_enqueue_style( 'bf_woo_builder', BF_WOO_ELEM_CSS_PATH . 'buddyforms-woocommerce.css', array(), bf_woo_elem_manager::get_version() );
 			wp_enqueue_style( 'jquery-ui-datepicker2', BF_WOO_ELEM_CSS_PATH . 'jquery.datetimepicker.min.css' );
 			$param_builder = array( 'field_id' => $field_id );

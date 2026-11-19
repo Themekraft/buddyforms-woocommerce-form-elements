@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // todo: I created this function in buddyforms/includes/functions.php But it is not available. Some priority issues
-function buddyforms2_is_gutenberg_page() {
+function bf_woo_elem_is_gutenberg_page() {
 	if ( function_exists( 'is_gutenberg_page' ) &&
 		 is_gutenberg_page()
 	) {
