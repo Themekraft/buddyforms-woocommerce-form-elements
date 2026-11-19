@@ -113,7 +113,9 @@ class bf_woo_elem_fs {
 				);
 			}
 		} catch ( Exception $ex ) {
-			trigger_error( 'BF-WooEle::' . wp_kses_post( $ex->getMessage() ), E_USER_NOTICE );
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				trigger_error( 'BF-WooEle::' . wp_kses_post( $ex->getMessage() ), E_USER_NOTICE ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- only reports a Freemius init failure while debugging.
+			}
 		}
 
 		return $bf_woo_elem_fs;
