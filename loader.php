@@ -58,6 +58,7 @@ if ( ! function_exists( 'buddyforms_addon_plugin_dependencies_slug' ) ) {
 	 *
 	 * @return string
 	 */
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- shared by every BuddyForms add-on behind function_exists(), so it keeps one name.
 	function buddyforms_addon_plugin_dependencies_slug( $slug ) {
 		if ( 'buddyforms' === $slug && defined( 'BUDDYFORMS_INSTALL_PATH' ) ) {
 			return basename( BUDDYFORMS_INSTALL_PATH );
@@ -119,6 +120,7 @@ if ( ! class_exists( 'bf_woo_elem' ) ) {
 		}
 
 		public function load_plugin_textdomain() {
+			// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- Kept on purpose: premium copies and builds not hosted on wordpress.org load their own translations from /languages.
 			load_plugin_textdomain( 'buddyforms-woocommerce-form-elements', false, basename( dirname( __FILE__ ) ) . '/languages' );
 		}
 

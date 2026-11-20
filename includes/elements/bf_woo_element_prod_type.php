@@ -49,11 +49,11 @@ if ( class_exists( 'Element_Select' ) ) {
 			unset( $form_fields['advanced']['metabox_enabled'] );
 			$form_fields['hidden']['slug'] = new Element_Hidden( 'buddyforms_options[form_fields][' . $field_id . '][slug]', 'product-type' );
 			$form_fields['hidden']['type'] = new Element_Hidden( 'buddyforms_options[form_fields][' . $field_id . '][type]', $field_type );
-			$product_type_default          = apply_filters( 'default_product_type', 'simple' );
+			$product_type_default          = apply_filters( 'default_product_type', 'simple' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce hook.
 			if ( isset( $buddyforms['form_fields'][ $field_id ]['product_type_default'] ) ) {
 				$product_type_default = $buddyforms['form_fields'][ $field_id ]['product_type_default'];
 			}
-			$product_type = apply_filters( 'default_product_type', 'simple' );
+			$product_type = apply_filters( 'default_product_type', 'simple' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WooCommerce hook.
 
 			$product_type_selector = wc_get_product_types();
 

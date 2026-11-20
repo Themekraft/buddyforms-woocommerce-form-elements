@@ -1,7 +1,7 @@
 === BuddyForms Form Elements for WooCommerce ===
 
 Contributors: svenl77, konradS, buddyforms, themekraft, gfirem
-Tags: buddypress, user, members, profiles, custom post types, taxonomy, frontend posting, frontend editing,
+Tags: buddypress, frontend posting, frontend editing, custom post types, taxonomy
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
