@@ -5,7 +5,7 @@ Tags: buddypress, user, members, profiles, custom post types, taxonomy, frontend
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.14
+Stable tag: 1.5.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,9 @@ The plugin should work with every theme. (Please let us know if you experience a
 
 
 == Changelog ==
+= 1.5.15 - 20 Nov 2026 =
+* Security: product type, prices and SKU fixed in the form are now applied when the product is saved.
+
 = 1.5.14 - 18 Nov 2026 =
 * Fixed submissions that failed without an error on forms that do not create products. The WooCommerce fields can now only be added to forms whose post type is Product, and other forms skip them.
 * Fixed the "DOMPurify is not defined" error on front-end product forms, which also kept the "Hide" options of the WooCommerce fields from applying. Forms that kept the default "Hide" for the regular price now hide that field and use the price set in the form builder.
