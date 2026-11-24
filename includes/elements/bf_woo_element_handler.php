@@ -137,7 +137,7 @@ class bf_woo_element_handler {
 			$url           = get_permalink( $item->ID );
 			$product_title = get_the_title( $item->ID );
 
-			return " <a style='vertical-align: top;' target='_blank' href='" . $url . "'>{$product_title}</a>";
+			return " <a style='vertical-align: top;' target='_blank' href='" . esc_url( $url ) . "'>" . esc_html( $product_title ) . '</a>';
 		}
 
 		if ( $column_name === 'product-gallery' ) {

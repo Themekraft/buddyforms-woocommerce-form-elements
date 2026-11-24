@@ -1,74 +1,44 @@
 === BuddyForms Form Elements for WooCommerce ===
 
 Contributors: svenl77, konradS, buddyforms, themekraft, gfirem
-Tags: buddypress, user, members, profiles, custom post types, taxonomy, frontend posting, frontend editing,
+Tags: woocommerce, buddyforms, frontend products, vendors, buddypress
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.15
+Stable tag: 1.5.16-beta.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Let your WooCommerce Vendors Manage there Products from the Frontend
+Create and edit WooCommerce products from the front end with BuddyForms Pro, and choose which product options each user sees.
 
 == Description ==
 
-This is the BuddyForms Form Elements Extension for WooCommerce. Create powerful frontend management for your vendors. You need the BuddyForms plugin installed for the plugin to work. <a href="http://buddyforms.com" target="_blank">Get BuddyForms now!</a>
+BuddyForms Form Elements for WooCommerce lets vendors and users create and edit WooCommerce products from the front end. It adds a WooCommerce section to the BuddyForms form builder, so you can build a product form and decide which product options each user sees. Requires BuddyForms Pro and WooCommerce.
 
-This plugin adds a new section to the BuddyForms Form Builder with all WooCommerce fields to create product forms to manage (create/edit) products from the frontend.
+= What users can manage from the front end =
 
-###WooCommerce Fields
-
-* Product General Data like Product Type, Price
-* Inventory
+* Product type and prices
+* SKU and inventory
 * Shipping
-* Linked Products
-* Attributes
-* Product Gallery
+* Linked products
+* Attributes and variations
+* Product gallery
 
+Each option can be visible, hidden or preset with a default value, so users only see what they need.
 
-<b>Keep your User in the Frontend.</b>
+= Vendors and marketplaces =
 
-Your users can become vendors and are able to manage their WooCommerce products from the front end. If you use BuddyPress, all can be integrated into the members profile with one click.
+Let your users become vendors and manage their own products from the front end. BuddyForms gives each product form two views: a list of a vendor's products, and a screen to create and edit a product. With BuddyPress and the free BuddyForms Members add-on, a member's product list can be shown on their profile.
 
+Vendor payments and commissions are left to other vendor plugins, so you can change vendor plugin later without changing your product forms.
 
-<b>Create a Marketplace.</b>
+= Compatibility =
 
-Create All Kind of marketplaces and let your user become the vendor.
-like classifieds, advertisements, creative markets...
+* Compatible with WooCommerce High-Performance Order Storage (HPOS)
 
+= Related plugins =
 
-What else do I need to create a marketplace?
-
-BuddyForms WooCommerce Form Elements is build for one purpose, to make it easy for you to manage creating and editing your WooCommerce products. This plugin is a clean, bloat free solution to front end edition of your WooCommerce products.
-
-<strong>Features</strong>:
-The plugin generates two different views.
-
-1. For the list of vendor products
-2. For the creation and edition screen.
-
-When used with BuddyPress, the members product listing can be displayed publicly to show their products directly within their profile page.
-
-If you wish to integrate WooCommerce with BuddyPress please use our <a href="http://buddyforms.com" title="WooCommerce BuddyPress Integration WordPress Plugin" target="_blank">WooCommerce and BuddyPress Profile synchronization plugin</a>. This plugin makes it very easy to integrate WooCommerce and other WooCommerce plugins directly within the BuddyPress profile pages.
-
-If you need a vendor management you can use any. This is a lot of freedom for you. You can change your vendors extension if you are unhappy, but all the rest will work. We decided to leave the vendor payment management to other plugins.
-
-There are already vendor plugins available from WooThemes and other developers.
-
-Free Vendor Plugins
-<ul>
-<a href="https://wordpress.org/plugins/wc-vendors/" target="_blank">WP Vendors<a/>
-</ul>
-
-Paid Vendor Plugins
-<ul>
-<a href="http://www.woothemes.com/products/product-vendors/" target="_blank">Product Vendors<a/>
-</ul>
-
-for more information please read the documentation on How to Create a Marketplace with WordPress, WooCommerce and BuddyPress.
-
-http://docs.buddyforms.com/article/151-create-a-social-marketplace-with-woocommerce-and-buddypress
+* [WooBuddy](https://wordpress.org/plugins/wc4bp/): moves the WooCommerce customer area into BuddyPress member profiles
 
 == Documentation & Support ==
 
@@ -81,16 +51,29 @@ The BuddyForms documentation with many how-to’s is following now!
 If you still get stuck somewhere, our support gets you back on the right track.
 You can find all help buttons in your BuddyForms settings panel in your WP dashboard!
 
- == Installation ==
+== Installation ==
 
-You can download and install BuddyForms WooCommerce Form Elements by using the built in WordPress plugin installer. If you download BuddyForms WooCommerce Form Elements manually, make sure it is uploaded to "/wp-content/plugins/".
+1. Install and activate BuddyForms (with BuddyForms Pro) and WooCommerce.
+2. Install this add-on from Plugins > Add New, or upload its folder to /wp-content/plugins/, and activate it.
+3. In the BuddyForms form builder, add the WooCommerce section to a form.
 
- == Frequently Asked Questions ==
+== Frequently Asked Questions ==
 
-You need the BuddyForms plugin installed for the plugin to work.
-<a href="http://buddyforms.com" target="_blank">Get BuddyForms now!</a>
+= Do I need BuddyForms? =
 
-The plugin should work with every theme. (Please let us know if you experience any issues with your theme.)
+Yes. This add-on needs the BuddyForms plugin and WooCommerce.
+
+= Do I need BuddyForms Pro? =
+
+Yes. WooCommerce products are a custom post type, and creating a custom post type from the front end is a BuddyForms Pro feature. The free version of BuddyForms can only create Posts and Pages.
+
+= Which product options can users edit? =
+
+Product type and prices, SKU and inventory, shipping, linked products, attributes, variations and the product gallery. You choose whether each option is visible, hidden or preset.
+
+= Does it work with my theme? =
+
+It should work with every theme. Please let us know if you run into an issue with yours.
 
 
 == Changelog ==

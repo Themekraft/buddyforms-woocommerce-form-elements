@@ -223,6 +223,11 @@ class bf_woo_elem_form_element {
 			echo '<div id="' . esc_attr( $id ) . '" class="postbox" >' . "\n";
 			echo "<h2 class='hndle bf_woo'><span class='woo_element_span'>{" . esc_html( $title ) . "}</span></h2>\n";
 			echo '<div class="inside">' . "\n";
+			// WooCommerce's product data views read the global post. The admin submission view has none.
+			$set_global_post = empty( $GLOBALS['post'] );
+			if ( $set_global_post ) {
+				$GLOBALS['post'] = $product_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+			}
 			switch ( $customfield['type'] ) {
 				case 'woocommerce':
 					WC_Meta_Box_Product_Data::output( $product_post );
@@ -233,6 +238,9 @@ class bf_woo_elem_form_element {
 					echo '<span class="help-inline">' . wp_kses_post( $customfield['description'] ) . '</span>';
 					$this->add_product_gallery_option( $customfield );
 					break;
+			}
+			if ( $set_global_post ) {
+				$GLOBALS['post'] = null; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			}
 			echo "</div>\n";
 			echo "</div>\n";
