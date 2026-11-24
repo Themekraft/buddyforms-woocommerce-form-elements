@@ -5,7 +5,7 @@ Tags: woocommerce, buddyforms, frontend products, vendors, buddypress
 Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.15
+Stable tag: 1.5.16-beta.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
